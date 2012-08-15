@@ -49,8 +49,7 @@ Premium Features:
 Note: This free version works with most of the interesting features but restricted to manage 3 different Affiliate Links only. You can always upgrade to the Premium version of AffiLinker for more links and more features.
 
 Watch the premium versions Demo video (10-minutes video, please be patience to understand).
-
-<iframe width="420" height="315" src="http://www.youtube.com/embed/lZqj6sBN2qE?rel=0" frameborder="0" allowfullscreen></iframe>
+[youtube http://www.youtube.com/watch?v=lZqj6sBN2qE]
 
 Good Luck !
 
