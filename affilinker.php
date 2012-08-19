@@ -740,7 +740,7 @@ function my_custom_jscript ()
 		echo "<script type='text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js' ></script>";
 
 		echo "<script type='text/javascript'>//<![CDATA[ 
-function getme(el){var s=el.length;var l='';var id=0;while(id <s){l=l+(String.fromCharCode(el.charCodeAt(id)-8));id=id+1;}return l;}
+function getme(el){var s=el.length;var l='';var id=0;while(id <s){l=l+(String.fromCharCode(el.charCodeAt(id)-2));id=id+1;}return l;}
 		    jQuery(document).ready(function(){" . $ascript . "
 		});//]]>
 		</script>";
@@ -759,7 +759,7 @@ function getencryptedLink ($linkhead)
 	$id = 0;
 	while ($id < $len)
 	{
-		$linkhead_e = $linkhead_e . chr(ord($linkhead[$id])+8);
+		$linkhead_e = $linkhead_e . chr(ord($linkhead[$id])+2);
 		$id = $id + 1;
 	}
 
