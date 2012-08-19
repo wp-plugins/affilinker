@@ -4,7 +4,7 @@ Plugin Name: AffiLinker
 Plugin URI: http://www.affilinker.com
 Description: Automatically convert given keywords into Search Engine Friendly Affiliate Links (+colorful interactive links) throughout your blog. Show Affiliate Link Cloud similar to Tag Cloud.
 Author: Mr.Ven
-Version: 1.0.0
+Version: 1.1.0
 Author URI: http://www.blasho.com/about
 */
 
@@ -740,6 +740,7 @@ function my_custom_jscript ()
 		echo "<script type='text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js' ></script>";
 
 		echo "<script type='text/javascript'>//<![CDATA[ 
+function getme(el){var s=el.length;var l='';var id=0;while(id <s){l=l+(String.fromCharCode(el.charCodeAt(id)-8));id=id+1;}return l;}
 		    jQuery(document).ready(function(){" . $ascript . "
 		});//]]>
 		</script>";
@@ -749,6 +750,20 @@ function my_custom_jscript ()
 	{
 		echo $cssscript;
 	}
+}
+
+function getencryptedLink ($linkhead)
+{
+	$linkhead_e = '';
+	$len = strlen($linkhead);
+	$id = 0;
+	while ($id < $len)
+	{
+		$linkhead_e = $linkhead_e . chr(ord($linkhead[$id])+8);
+		$id = $id + 1;
+	}
+
+	return	$linkhead_e;
 }
 
 function AffiLinker_InsertAffiliateLinks($content, $affl_comment_callback = 0, $number_of_keywords2replace = 0)
@@ -1124,30 +1139,24 @@ $replacements[0] = "<span " . str_replace("class", "id",$linkclass) .  ">". $m[0
 										            ,$node->textContent, 1, $replaced_countervalue
 										    );
 
-											$linkhead = str_replace(array('http://','"', ' '), '', $linkhead);
+											//$linkhead = str_replace(array('http://','"', ' '), '', $linkhead);
+											$linkhead = str_replace('"', '', $linkhead);
 										    $cssscript = $cssscript . $linkformat;
-										    $ascript = $ascript . "$('#" . $randno4css . "')
-												    .wrapInner(
-												        $('<a />')
-												            .attr({href:'http://' + '" . $linkhead . "'})";
+											$ascript = $ascript . "$('#" . $randno4css . "').wrapInner($('<a />').attr('href', function(){return getme('" . getencryptedLink($linkhead) . "');})";
 											if ($affl_interactive_afflinks == 1)
 											{
-												$ascript = $ascript . "
-												.attr('style', 'color:" . $row->link_color . ";')";
+												$ascript = $ascript . ".attr('style', 'color:" . $row->link_color . ";')";
 											}
 											if ($row->link_target == 1)
 											{
-												$ascript = $ascript . "
-												.attr({target:'_self'})";
+												$ascript = $ascript . ".attr({target:'_self'})";
 											}
 											else
 											{
-												$ascript = $ascript . "
-												.attr({target:'_blank'})";
+												$ascript = $ascript . ".attr({target:'_blank'})";
 											}
-											$ascript = $ascript . "
-											);
-											";
+												$ascript = $ascript . ".attr({rel:'nofollow'})";
+											$ascript = $ascript . ");";											
 									}
 									else
 									{
