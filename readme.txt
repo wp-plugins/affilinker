@@ -3,7 +3,7 @@ Contributors: Ven Tesh
 Donate link: http://www.affilinker.com/affiliate-wordpress-plugin/
 Tags: affiliate, affiliate plugin, tag cloud, affilinker, links, link, keywords, google, money, widget
 Requires at least: 3.0
-Tested up to: 3.4.1
+Tested up to: 3.6
 Stable tag: 1.2.0
 License: GPLv2 or later
 Automatically convert given keywords into Search Engine Friendly Affiliate Links (+colorful interactive links) throughout your blog.
