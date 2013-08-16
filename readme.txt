@@ -1,15 +1,16 @@
 === AffiLinker Affiliate === 
-Contributors: Mr.Ven
+Contributors: Ven Tesh
+Donate link: http://www.affilinker.com/affiliate-wordpress-plugin/
 Tags: affiliate, affiliate plugin, tag cloud, affilinker, links, link, keywords, google, money, widget
 Requires at least: 3.0
 Tested up to: 3.4.1
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 Automatically convert given keywords into Search Engine Friendly Affiliate Links (+colorful interactive links) throughout your blog.
 == Description ==
 The idea of AffiLinker WordPress Plugin is to automatically convert the given keywords into interactive + profitable Affiliate Links that your visitors Love-To-Click. The Affiliate Links on Posts/Pages are Google (search engine) Friendly.
 
-<a href="http://www.affilinker.com/affiliate-wordpress-plugin/">Premium Version</a> | <a href="http://www.affilinker.com/affilinker-plans-and-pricing/">Pricing</a>
+<a href="http://www.affilinker.com/affiliate-wordpress-plugin/">Download Pro-Version</a>
 
 You can also show collection of Affiliate Links as Link Cloud similar to Tag Cloud on the sidebar, footer of your WordPress blog.
 
@@ -39,7 +40,7 @@ Keep in mind, this is not a black-hat plugin to hide affiliate links.
 - Option to quickly disable/enable all the functionalities of AffiLinker
 - Looking for even more features ? Download the <a href="http://www.affilinker.com/affiliate-wordpress-plugin/">premium version here</a>.
 
-Premium Features:
+Pro-Version Features:
 
 - Manage unlimited number of Affiliate Links and keywords
 - Show Affiliate Links only on certian blog posts with minimum word count (for example, show Affiliate Link only on blog posts with more than 400 words)
@@ -93,6 +94,11 @@ Yes, there is a built-in hit counter which shows the total number of clicks, uni
 = 1.1.0 =
 * Code changes done to keep the affiliate links encoded so that they are not seen on the source code and not directly indexable by search engines.
 * Nofollow'd the js links as even evolving search engines (like Google,Bing) can execute and interpret dynamically generated links.
+= 1.2.0 =
+* Improved UI
+* Bug fix for WordPress 3.6 compatibility
+* Optimized the code for faster execution
+* Improvements to take correct default values
 == Other Notes ==
 NA
  == Upgrade Notice == 
