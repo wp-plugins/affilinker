@@ -4,7 +4,7 @@ Donate link: http://www.affilinker.com/affiliate-wordpress-plugin/
 Tags: affiliate, affiliate plugin, tag cloud, affilinker, links, link, keywords, google, money, widget
 Requires at least: 3.0
 Tested up to: 3.6
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 Automatically convert given keywords into Search Engine Friendly Affiliate Links (+colorful interactive links) throughout your blog.
 == Description ==
@@ -99,6 +99,8 @@ Yes, there is a built-in hit counter which shows the total number of clicks, uni
 * Bug fix for WordPress 3.6 compatibility
 * Optimized the code for faster execution
 * Improvements to take correct default values
+= 1.3.0 =
+* Added new option to disable jQuery Script (helps to resolve any jQuery conflicts) esp. with other WordPress plugins that uses jQuery.
 == Other Notes ==
 NA
  == Upgrade Notice == 
