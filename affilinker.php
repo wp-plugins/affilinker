@@ -4,7 +4,7 @@ Plugin Name: AffiLinker
 Plugin URI: http://www.affilinker.com/affiliate-wordpress-plugin/
 Description: WordPress plugin (lite version) to automatically convert keywords into Affiliate Links and to show Affiliate Link Cloud widget - <a href="http://www.affilinker.com/affiliate-wordpress-plugin/" target = "_blank">Download Pro-Version here</a>
 Author: Ven Tesh
-Version: 1.2.0
+Version: 1.3.0
 Author URI: http://www.blasho.com/about/
 */
 
@@ -822,6 +822,8 @@ function AffiLinker_Operations()
 	$afflinker_enable = filter_input(INPUT_POST, 'afflinker_enable', FILTER_SANITIZE_SPECIAL_CHARS); 
 	$affl_num_of_wordcount = filter_input(INPUT_POST, 'affl_num_of_wordcount', FILTER_SANITIZE_SPECIAL_CHARS); 
 
+	$afflinker_jquery_opt = filter_input(INPUT_POST, 'afflinker_jquery_opt', FILTER_SANITIZE_SPECIAL_CHARS); 
+	
 		if ($affl_num_of_keywords == '')
 		{
 			$affl_num_of_keywords = 5;
@@ -875,6 +877,11 @@ function AffiLinker_Operations()
 			$affl_num_of_wordcount = -1;
 		}
 
+		if ($afflinker_jquery_opt == '')
+		{
+			$afflinker_jquery_opt = 1;
+		}
+
 	update_option("affl_num_of_keywords", $affl_num_of_keywords);
 	update_option("affl_num_of_keywords_percomment", $affl_num_of_keywords_percomment);
 	update_option("affl_num_samekey_perpost", $affl_num_samekey_perpost);
@@ -890,7 +897,7 @@ function AffiLinker_Operations()
 	update_option("affl_keyword_priority", $affl_keyword_priority);
 	update_option("affl_interactive_afflinks", $affl_interactive_afflinks);
 	update_option("afflinker_enable", $afflinker_enable);
-
+	update_option("afflinker_jquery_opt", $afflinker_jquery_opt);
 	}
 
 	if($_POST['SubmitAll']=='Save All Changes')
@@ -1111,6 +1118,11 @@ global $afflt;
 			$affl_interactive_afflinks = 1;
 		}
 
+		$afflinker_jquery_opt = get_option("afflinker_jquery_opt");
+		if ($afflinker_jquery_opt == '')
+		{
+			$afflinker_jquery_opt = 1;
+		}
 
 		$afflinker_enable = get_option("afflinker_enable");
 		if ($afflinker_enable == '')
@@ -1295,6 +1307,23 @@ global $afflt;
 			<td height="50px"><input type="hidden" name="affl_savegs_changes" value="ok" /></td>';
 		echo '</tr>
 
+		<tr  valign="top" >
+			<td height="50px">JQuery Script</td>
+			<td height="50px">';
+				if ($afflinker_jquery_opt == 1)
+				{
+					echo '<input type="radio" name="afflinker_jquery_opt" value="1" checked="yes" />&nbsp;Enable<br/>';
+					echo '<input type="radio" name="afflinker_jquery_opt" value="0" />&nbsp;Disable<br/>';
+				}
+				else
+				{
+					echo '<input type="radio" name="afflinker_jquery_opt" value="1" />&nbsp;Enable<br/>';
+					echo '<input type="radio" name="afflinker_jquery_opt" value="0" checked="yes" />&nbsp;Disable<br/>';
+				}
+
+				echo '<small>If there are any JQuery Conflicts, you can Uncheck this. By default this is Enabled.</small>
+			</td>
+		</tr>
 	</table>
 	</form>';
 
@@ -2141,8 +2170,17 @@ function my_custom_jscript ()
 	global $cssscript;
 	if ($ascript != '')
 	{
-		echo "<script type='text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js' ></script>";
+		$afflinker_jquery_opt = get_option("afflinker_jquery_opt");
+		if ($afflinker_jquery_opt == '')
+		{
+			$afflinker_jquery_opt = 1;
+			update_option("afflinker_jquery_opt", $afflinker_jquery_opt);
+		}
 
+		if ($afflinker_jquery_opt == 1)
+		{
+			echo "<script type='text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js' ></script>";
+		}
 		echo "<script type='text/javascript'>//<![CDATA[ 
 function getme(el){var s=el.length;var l='';var id=0;while(id <s){l=l+(String.fromCharCode(el.charCodeAt(id)-2));id=id+1;}return l;}
 
@@ -2600,9 +2638,9 @@ $replacements[0] = "<span " . str_replace("class", "id",$linkclass) .  ">". $m[0
 										    $cssscript = $cssscript . $linkformat;
 
 										    if (detectUTF8($key) == 0)
-												$ascript = $ascript . "$('#" . $randno4css . "').wrapInner($('<a />').attr('href', function(){return getme('" . getencryptedLink($linkhead) . "');})";
+												$ascript = $ascript . "jQuery('#" . $randno4css . "').wrapInner(jQuery('<a />').attr('href', function(){return getme('" . getencryptedLink($linkhead) . "');})";
 											else
-												$ascript = $ascript . "$('#" . $randno4css . "').wrapInner($('<a />').attr('href', function(){return '" . $linkhead . "';})";
+												$ascript = $ascript . "jQuery('#" . $randno4css . "').wrapInner(jQuery('<a />').attr('href', function(){return '" . $linkhead . "';})";
 												
 											if ($affl_interactive_afflinks == 1)
 											{
