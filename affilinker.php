@@ -4,7 +4,7 @@ Plugin Name: AffiLinker
 Plugin URI: http://www.affilinker.com/affiliate-wordpress-plugin/
 Description: WordPress plugin (lite version) to automatically convert keywords into Affiliate Links and to show Affiliate Link Cloud widget - <a href="http://www.affilinker.com/affiliate-wordpress-plugin/" target = "_blank">Download Pro-Version here</a>
 Author: Ven Tesh
-Version: 1.3.0
+Version: 1.4.0
 Author URI: http://www.blasho.com/about/
 */
 
@@ -21,7 +21,7 @@ $linknofollow  = '';
 $linklink_target = '';
 $linkhead = '';
 $linkclass = '';
-$afflt = array( "AffiLinker Activation Form", "AffiLinker - General Settings" );
+$afflt = array( 'AffiLinker Activation Form', 'AffiLinker - General Settings' );
 
 function AffiLinker_create_ad_widget() {
 	register_widget( 'AffiLinkerWidget' );
@@ -481,6 +481,11 @@ $affl_underline_options_array = array(
 							$linkformat = $linkformat . 'font-style:italic;';
 						}
 
+						if (!is_null($row->hover_title_text))
+						{
+							$linkformat = $linkformat . "title:'" . $row->hover_title_text . "';";
+						}
+						
 						if ($row->affl_underline_options != 0)
 						{
 							$linkformat = $linkformat . $affl_underline_options_array[$row->affl_underline_options];
@@ -771,6 +776,8 @@ function AffiLinker_Operations()
 		$hover_color = filter_input(INPUT_POST, 'hover_color', FILTER_SANITIZE_SPECIAL_CHARS); 
 		$hover_bg_color = filter_input(INPUT_POST, 'hover_bg_color', FILTER_SANITIZE_SPECIAL_CHARS); 
 		
+		$hover_title_text = filter_input(INPUT_POST, 'hover_title_text', FILTER_SANITIZE_SPECIAL_CHARS);
+
 		$font_size = filter_input(INPUT_POST, 'font_size', FILTER_SANITIZE_SPECIAL_CHARS); 
 		$font_family = filter_input(INPUT_POST, 'font_family', FILTER_SANITIZE_SPECIAL_CHARS); 
 
@@ -792,7 +799,7 @@ function AffiLinker_Operations()
 			$rows_affected = $wpdb->insert( $table_name, array( 'link' => $link, 'keywords' => $keywords, 'link_color' => $link_color, 'bg_color' => $bg_color,
 				'hover_color' => $hover_color, 'hover_bg_color' => $hover_bg_color, 'font_size' => $font_size, 'font_family' => $font_family, 
 				'link_style_bold' => $link_style_bold, 'link_style_italics' => $link_style_italics, 'affl_underline_options' => $affl_underline_options,
-				'link_nofollow' => $link_nofollow, 'link_target' => $link_target, 'include_keyword' => $include_keyword, 'alt_link_keyword' => $alt_link_keyword, 'link_hit_count' => $link_hit_count, 'keyword_priority' => $keyword_priority ) );
+				'link_nofollow' => $link_nofollow, 'link_target' => $link_target, 'include_keyword' => $include_keyword, 'alt_link_keyword' => $alt_link_keyword, 'link_hit_count' => $link_hit_count, 'keyword_priority' => $keyword_priority, 'hover_title_text' => $hover_title_text  ) );
 		}
 		wp_redirect("admin.php?page=affilinker/affilinker.php#down");
 	}			
@@ -823,6 +830,12 @@ function AffiLinker_Operations()
 	$affl_num_of_wordcount = filter_input(INPUT_POST, 'affl_num_of_wordcount', FILTER_SANITIZE_SPECIAL_CHARS); 
 
 	$afflinker_jquery_opt = filter_input(INPUT_POST, 'afflinker_jquery_opt', FILTER_SANITIZE_SPECIAL_CHARS); 
+	
+	
+		if ($afflinker_enable == '')
+		{
+			$afflinker_enable = 0;
+		}
 	
 		if ($affl_num_of_keywords == '')
 		{
@@ -920,6 +933,7 @@ function AffiLinker_Operations()
 	$link_style_boldall = $_POST['link_style_bold'];
 	$link_style_italicsall = $_POST['link_style_italics'];
 	$affl_underline_optionsall = $_POST['affl_underline_options'];
+	$hover_title_textall = $_POST['hover_title_text'];
 	$alt_link_keywordall = $_POST['alt_link_keyword'];
 	$keyword_priorityall = $_POST['keyword_priority'];
 
@@ -1001,11 +1015,11 @@ function AffiLinker_Operations()
 		'hover_color' => $hover_colorall[$ids], 'hover_bg_color' => $hover_bg_colorall[$ids], 'font_size' => $font_sizeall[$ids], 'font_family' => $font_familyall[$ids], 
 		'link_style_bold' => $link_style_boldset, 'link_style_italics' => $link_style_italicsset, 'affl_underline_options' => $affl_underline_optionsall[$ids],
 		'link_nofollow' => $nofollowset, 'link_target' => $targetset, 'include_keyword' => $include_keywordset, 'alt_link_keyword' => $alt_link_keywordset, 
-		'link_hit_count' => $link_hit_countall[$ids], 'keyword_priority' => $keyword_priorityset ), array( 'id' => $idall[$ids] ));
-
-	}
+		'link_hit_count' => $link_hit_countall[$ids], 'keyword_priority' => $keyword_priorityset, 'hover_title_text' => $hover_title_textall[$ids] ), array( 'id' => $idall[$ids] ));
 
 		wp_redirect("admin.php?page=affilinker/affilinker.php#up");
+	}
+
 	}
 
 	if($_POST['SubmitAll']=='Delete Selected') {
@@ -1125,10 +1139,8 @@ global $afflt;
 		}
 
 		$afflinker_enable = get_option("afflinker_enable");
-		if ($afflinker_enable == '')
-		{
-			$afflinker_enable = 1;
-		}
+
+
 		$affl_num_of_wordcount = get_option("affl_num_of_wordcount");
 		if ($affl_num_of_wordcount == '')
 		{
@@ -1146,14 +1158,14 @@ global $afflt;
 			<td height="50px">';
 				if ($afflinker_enable == 1)
 				{
-					echo '<input type="checkbox" name="afflinker_enable" value="1" CHECKED/>&nbsp;Keep it Active<br/>';
+					echo '<input type="checkbox" name="afflinker_enable" value="1" CHECKED/>&nbsp;Enable AffiLinker<br/>';
 				}
 				else
 				{
-					echo '<input type="checkbox" name="afflinker_enable" value="1" />&nbsp;Keep me Active<br/>';
+					echo '<input type="checkbox" name="afflinker_enable" value="1" />&nbsp;Enable AffiLinker<br/>';
 				}
 
-				echo '<small>Uncheck to keep AffiLinker deactivated, it works in admin area and becomes slient on live blog.</small>
+				echo '<small>Uncheck to keep AffiLinker plugin disabled, it works only in admin area and stays slient on your blog.</small>
 			</td>
 		</tr>
 		<tr  valign="top" >
@@ -1212,7 +1224,7 @@ global $afflt;
 		echo '<tr  valign="top" >
 			<td height="50px" style="color:grey;">Minimum word count required</td>
 			<td height="50px"><input type="text" name="affl_num_of_wordcount" size="5" value="' . $affl_num_of_wordcount . '" disabled /><br/>
-				<small style="color:grey;">Replaces only the blog posts/pages which has more than the specified number of words. <strong>-1</strong> represents no limit.</small>
+				<small style="color:grey;">(Pro-Version only) Replaces only the blog posts/pages which has more than the specified number of words. <strong>-1</strong> represents no limit.</small>
 			</td>
 		</tr>
 
@@ -1274,7 +1286,7 @@ global $afflt;
 					echo '<input type="radio" name="affl_keyword_priority" value="1" disabled />&nbsp;Enable<br/>
 					<input type="radio" name="affl_keyword_priority" value="0" checked="yes" disabled />&nbsp;Disable<br/>';
 				}
-				echo '<small style="color:grey;">When Enabled, AffiLinker will replace Priority Keywords into links first and then the replacement for Non-Priority Keywords. When Disabled, all keywords are treated as equal priority.</small>
+				echo '<small style="color:grey;"> (Pro-Version only) When Enabled, AffiLinker will replace Priority Keywords into links first and then the replacement for Non-Priority Keywords. When Disabled, all keywords are treated as equal priority.</small>
 			</td>
 		</tr>
 
@@ -1298,14 +1310,9 @@ global $afflt;
 		<tr  valign="top" >
 			<td height="50px" style="color:grey;">Your choice of Link Term : </td>
 			<td height="50px" style="color:grey;">http://www.yoursite.com/<input type="text" name="affl_link_term" size="15" value="' . $affl_link_term . '" disabled />/keyword-here/<br/>
-				<small style="color:grey;">Spice up the links with your own Link Term.</small>
+				<small style="color:grey;">(Pro-Version only) Spice up the links with your own Link Term.</small>
 			</td>
 		</tr>
-
-		<tr  valign="top">';
-			echo '<td height="50px"><input type="submit" class="button-primary" value="Save Changes" name="save-gs-changes" /></td>
-			<td height="50px"><input type="hidden" name="affl_savegs_changes" value="ok" /></td>';
-		echo '</tr>
 
 		<tr  valign="top" >
 			<td height="50px">JQuery Script</td>
@@ -1324,6 +1331,12 @@ global $afflt;
 				echo '<small>If there are any JQuery Conflicts, you can Uncheck this. By default this is Enabled.</small>
 			</td>
 		</tr>
+
+		<tr  valign="top">';
+			echo '<td height="50px"><input type="submit" class="button-primary" value="Save Changes" name="save-gs-changes" /></td>
+			<td height="50px"><input type="hidden" name="affl_savegs_changes" value="ok" /></td>';
+		echo '</tr>
+
 	</table>
 	</form>';
 
@@ -1584,7 +1597,7 @@ if ( function_exists('wp_nonce_field') )
 			<td height="150px">Enter Keywords Seperated by Comma :</td>
 			<td height="150px"> <!-- <input type="text" name="keywords" /> --> <textarea wrap="hard" name="keywords" rows=4 cols=65></textarea>
 							<br/>
-				<small>Example: <strong>Canon PowerShot, Canon Camera, canon camera, Digital Camera, Digital camera</strong></small><br/> Yes, keywords are case-sensitive to have more control.</td>
+				<small>Example: <strong>Canon PowerShot, Canon Camera, canon camera, Digital Camera, Digital camera</strong></small><br/> Keywords are case-sensitive to have more control.</td>
 		</tr>
 		<tr  valign="top">';
 			echo '<td height="50px"><input type="submit" class="button-primary" value="Quickly Add Link" name="Link" /></td>
@@ -1679,7 +1692,7 @@ var myPicker = new jscolor.color(document.getElementById("affhover_bg_color"), {
 				<option value="25">25</option>
 				</select>
 				<br/>
-				<small style="color:grey;"> When not selected, it takes the default anchor text font size matching to your blog.</small>
+				<small style="color:grey;"> (Pro-Version only) When not selected, it takes the default anchor text font size matching to your blog.</small>
 			</td>
 		</tr>
 
@@ -1709,7 +1722,7 @@ var myPicker = new jscolor.color(document.getElementById("affhover_bg_color"), {
 				<option value="19">Verdana</option>
 				</select>
 <br/>
-				<small style="color:grey;"> When not selected, it takes the default anchor text font name matching to your blog.</small>
+				<small style="color:grey;"> (Pro-Version only) When not selected, it takes the default anchor text font name matching to your blog.</small>
 			</td>
 		</tr>
 		
@@ -1768,6 +1781,15 @@ var myPicker = new jscolor.color(document.getElementById("affhover_bg_color"), {
 			</td>
 		</tr>
 
+<tr  valign="top">
+			<td height="60px" style="color:grey;">Title Text :</td>
+			<td height="60px">
+				<input type="text" name="hover_title_text" value="" size="65" disabled />
+				<br/>
+				<small style="color:grey;" >(Pro-Version only) The title text that appears when your visitor hovers the mouse over an affiliate link. Leave it blank, if you don&#39;t want to use.</small>
+			</td>
+</tr>
+
 <!--	</table> -->
 		<tr  valign="top" >
 		<td COLSPAN="2">
@@ -1803,7 +1825,7 @@ var myPicker = new jscolor.color(document.getElementById("affhover_bg_color"), {
 		<tr  valign="top">
 			<td height="80px" style="color:grey;">Make this a Priority Keyword : </td>
 			<td height="80px"> <input type="checkbox" name="keyword_priority" value="1"  disabled>&nbsp;<div style="color:grey;">Priority Keyword</div><br/>
-				<small style="color:grey;">When you make it Priority Keyword, AffiLinker will replace these keywords into links first and then looks for Non-Priority Keywords. This helps when you limit the number of links per post, priority keywords are given more importance than other keywords.</small> </td>
+				<small style="color:grey;">(Pro-Version only) When you make it Priority Keyword, AffiLinker will replace these keywords into links first and then looks for Non-Priority Keywords. This helps when you limit the number of links per post, priority keywords are given more importance than other keywords.</small> </td>
 		</tr>
 
 		<tr  valign="top">
@@ -1824,7 +1846,7 @@ var myPicker = new jscolor.color(document.getElementById("affhover_bg_color"), {
 
 	<br />
 	<br />
-			<div class="update-nag"><strong><a href="http://www.affilinker.com/affiliate-wordpress-plugin/" target = "_blank">Get AffiLinker Pro-Version</a></strong> to manage unlimited Affiliate Links and unlock all features.</div>
+			<div class="update-nag"><strong><a href="http://www.affilinker.com/affiliate-wordpress-plugin/" target = "_blank">Get AffiLinker Pro-Version</a></strong> to manage unlimited Affiliate Links and unlock all features. This lite version supports only 3 Affiliate Links.</div>
 	<div id="icon-options-general" class="icon32"><br /></div>
 	<a id="up"></a>
 	<h2>Manage All Links</h2>
@@ -1886,6 +1908,8 @@ $keyword_priority = $row->keyword_priority;
   				$link_style_bold = $row->link_style_bold;
   				$link_style_italics = $row->link_style_italics;
 $affl_underline_options = $row->affl_underline_options;
+$hover_title_text = $row->hover_title_text;
+
 $link_hit_count = $row->link_hit_count;
 
 				$deletelink = '?page=affilinker.php&AffiLinker_Do=delete&id='. $id;
@@ -2081,6 +2105,7 @@ $affl_underline_options_name_array = array(
 				}
 				echo '</select>';
 
+					echo '<br/>Title: <input type="text" name="hover_title_text[]" value="' . $hover_title_text . '" size="10" disabled><br/>';
 			?>
 			</td>
 <td>
@@ -2119,6 +2144,7 @@ $affl_underline_options_name_array = array(
 </form>
 <a id="down"></a>
  </div>
+ <br/><div class="update-nag"><strong><a href="http://www.affilinker.com/affiliate-wordpress-plugin/" target = "_blank">Get AffiLinker Pro-Version</a></strong> to manage unlimited Affiliate Links and unlock all features. This lite version supports only 3 Affiliate Links.</div>
 	';
 
 //	print_r($myrows);
@@ -2379,18 +2405,18 @@ else
 		if ($priority_keys_done == 0)
 		{
 //								echo '----PRI----';
-			$myrows = $wpdb->get_results( "SELECT id,link,keywords, alt_link_keyword, link_color, bg_color,hover_color,hover_bg_color, font_size, font_family, link_style_bold, link_style_italics, affl_underline_options, link_nofollow, link_target, include_keyword FROM ". $table_name . " WHERE keyword_priority <> 1");
+			$myrows = $wpdb->get_results( "SELECT id,link,keywords, alt_link_keyword, link_color, bg_color,hover_color,hover_bg_color, font_size, font_family, link_style_bold, link_style_italics, affl_underline_options, link_nofollow, link_target, include_keyword, hover_title_text  FROM ". $table_name . " WHERE keyword_priority <> 1");
 		}
 		else if ($priority_keys_done == 1)
 		{
 //								echo '----NPRI----';
-			$myrows = $wpdb->get_results( "SELECT id,link,keywords, alt_link_keyword, link_color, bg_color, hover_color,hover_bg_color, font_size, font_family, link_style_bold, link_style_italics, affl_underline_options,  link_nofollow, link_target, include_keyword FROM ". $table_name . " WHERE keyword_priority <> 1" );
+			$myrows = $wpdb->get_results( "SELECT id,link,keywords, alt_link_keyword, link_color, bg_color, hover_color,hover_bg_color, font_size, font_family, link_style_bold, link_style_italics, affl_underline_options,  link_nofollow, link_target, include_keyword, hover_title_text  FROM ". $table_name . " WHERE keyword_priority <> 1" );
 		}
 		else if ($priority_keys_done == 2)
 		{
 //								echo '----ALL----';
 
-			$myrows = $wpdb->get_results( "SELECT id,link,keywords, alt_link_keyword, link_color, bg_color, hover_color,hover_bg_color, font_size, font_family, link_style_bold, link_style_italics,affl_underline_options,  link_nofollow, link_target, include_keyword FROM ". $table_name);
+			$myrows = $wpdb->get_results( "SELECT id,link,keywords, alt_link_keyword, link_color, bg_color, hover_color,hover_bg_color, font_size, font_family, link_style_bold, link_style_italics,affl_underline_options,  link_nofollow, link_target, include_keyword, hover_title_text  FROM ". $table_name);
 		}
 				$patterns = array();
 		if ($affl_comment_callback == 1)
@@ -2656,7 +2682,10 @@ $replacements[0] = "<span " . str_replace("class", "id",$linkclass) .  ">". $m[0
 												$ascript = $ascript . ".attr({target:'_blank'})";
 											}
 												$ascript = $ascript . ".attr({rel:'nofollow'})";
-
+if (!is_null($row->hover_title_text))
+{
+	$ascript = $ascript . ".attr({title:'" . $row->hover_title_text . "'})";
+}
 											$ascript = $ascript . ");";
 									}
 									else
@@ -2794,98 +2823,11 @@ register_activation_hook(__FILE__,'AffiLinker_Install');
 
 function AffiLinker_Install() {
 	global $wpdb;
-	$table_name = $wpdb->prefix . "AffiLinker_db";
+	$table_name = $wpdb->prefix . "affilinker_db";
 
-	$affilinker_db_version = "2.8.1";
-	if(strcasecmp($wpdb->get_var("SHOW TABLES LIKE '$table_name'"), $table_name) == 0)
-	{
-		$affilinker_db_stored_version = get_option("affilinker_db_version");
-		if (strcasecmp($affilinker_db_stored_version, $affilinker_db_version) != 0)
-		{
-			update_option("affilinker_db_version", $affilinker_db_version);
-			update_option("affl_num_of_keywords", 5);
-			update_option("affl_num_of_keywords_percomment", 5);
-			update_option("affl_postcontrol", 1);
-			update_option("affl_ignoreposts", "0,1,2");
-			update_option("affl_onlyposts", "2,1, 0");
-			update_option("affl_link_on_comments", 0);
-			update_option("affl_link_on_homepage", 1);
+	$affilinker_db_version = "200";
 			
-			update_option("affl_keyword_priority", 0);
-			update_option("affl_interactive_afflinks", 1);
-			update_option("afflinker_enable", 1);
-			update_option("affl_num_of_wordcount", -1);
-
-			update_option("affl_widget_title", "");
-			update_option("affl_widget_no_keywords", 10);
-			update_option("affl_widget_type", 0);
-			update_option("affl_widget_font_startpx", 10);
-			update_option("affl_widget_font_endpx", 25);
-			update_option("affl_widget_interactive_opt", 0);
-			update_option("affl_widget_avoid_dup", 0);
-
-			update_option("affl_num_samekey_perpost", 2);
-			update_option("affl_num_samekey_oncommsec", 2);
-			update_option("affl_num_enable", 0);
-			update_option("affl_num_count", 0);
-			update_option("affl_link_term", 'visit');
-
-			update_option("affl_updurl", '');
-			update_option("affl_updav", 10);
-			
-			$sql = "CREATE TABLE " . $table_name . " (
-		  id mediumint(9) NOT NULL AUTO_INCREMENT,
-		  link text NOT NULL,
-		  keywords text,
-		  link_color text,
-		  bg_color text,
-		  hover_color text,
-		  hover_bg_color text,
-		  font_size int(12),
-		  font_family text,
-		  link_style_bold int(12),
-		  link_style_italics int(12),
-		  affl_underline_options int(12) NOT NULL,
-		  link_nofollow int(12) NOT NULL,
-		  link_target int(12) NOT NULL,
-		  include_keyword int(12) NOT NULL,
-		  alt_link_keyword int(12) NOT NULL,
-		  link_hit_count int(12),
-		 keyword_priority int(12) NOT NULL,
-		  UNIQUE KEY id (id)
-		);";
-
-			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-			dbDelta($sql);
-
-		$table_name = $wpdb->prefix . "AffiLinker_db_stat";
-
-			$sql = "CREATE TABLE " . $table_name . " (
-		  id mediumint(9) NOT NULL AUTO_INCREMENT,
-		  referral_link text,
-		  hit_keyword text,
-		  link_hit_count int(12),
-		  UNIQUE KEY id (id)
-		);";
-
-			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-			dbDelta($sql);
-
-		$table_name = $wpdb->prefix . "AffiLinker_db_stat_uniq";
-
-		$sql = "CREATE TABLE " . $table_name . " (
-		  id mediumint(9) NOT NULL AUTO_INCREMENT,
-		  hit_keyword text,
-		  affl_ip_address text,
-		  UNIQUE KEY id (id)
-		);";
-
-		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-		dbDelta($sql);
-
-		}
-	}
-	else
+	if(strcasecmp($wpdb->get_var("SHOW TABLES LIKE '$table_name'"), $table_name) != 0)
 	{
 		add_option("affilinker_db_version", $affilinker_db_version);
 		add_option("affl_num_of_keywords", 5);
@@ -2917,7 +2859,7 @@ function AffiLinker_Install() {
 
 		add_option("affl_updurl", '');
 		add_option("affl_updav", 10);
-
+	}
 		$sql = "CREATE TABLE " . $table_name . " (
 	  id mediumint(9) NOT NULL AUTO_INCREMENT,
 	  link text NOT NULL,
@@ -2937,7 +2879,8 @@ function AffiLinker_Install() {
 	  alt_link_keyword int(12) NOT NULL,
 	  link_hit_count int(12),
 	 keyword_priority int(12) NOT NULL,
-	  UNIQUE KEY id (id)
+	  UNIQUE KEY id (id),
+	  hover_title_text text
 	);";
 
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -2968,7 +2911,7 @@ function AffiLinker_Install() {
 	require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 	dbDelta($sql);
 
-	}
+	update_option("affilinker_db_version", $affilinker_db_version);
 }
 
 ?>
