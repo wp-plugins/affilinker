@@ -3,8 +3,8 @@ Contributors: Ven Tesh
 Donate link: http://www.affilinker.com/affiliate-wordpress-plugin/
 Tags: affiliate, affiliate plugin, tag cloud, affilinker, links, link, keywords, google, money, widget
 Requires at least: 3.0
-Tested up to: 3.6
-Stable tag: 1.3.0
+Tested up to: 3.9.2
+Stable tag: 1.4.0
 License: GPLv2 or later
 Automatically convert given keywords into Search Engine Friendly Affiliate Links (+colorful interactive links) throughout your blog.
 == Description ==
@@ -18,9 +18,7 @@ AffiLinker is developed to increase your blog income (+one step further, Google 
 
 With AffiLinker, you can add the list of keywords and corresponding Affiliate Links (not only Affiliate Links, you can add any URL). Now AffiLinker, automatically turns all those keywords into the given Affiliate Link. You can customize the look-n-feel of each and every Affiliate Link to make your visitors Love-To-Click.
 
-The Affiliate Links on posts, pages are not indexable directly by search engines like Google, Bing, Yahoo because they are dynamically generated using javascript. You could not find the Affiliate Link in the source code of your web page.
-
-Keep in mind, this is not a black-hat plugin to hide affiliate links.
+The Affiliate Links on posts, pages are dynamically generated using javascript. You can't find the Affiliate Link in the source code of your web page.
 
 <strong>Features of AffiLinker Affiliate WordPress Plugin:</strong>
 
@@ -42,10 +40,11 @@ Keep in mind, this is not a black-hat plugin to hide affiliate links.
 
 Pro-Version Features:
 
-- Manage unlimited number of Affiliate Links and keywords
+- Manage <strong>unlimited</strong> number of Affiliate Links and keywords
 - Show Affiliate Links only on certian blog posts with minimum word count (for example, show Affiliate Link only on blog posts with more than 400 words)
 - Specify priority keywords, AffiLinker gives importance to Priority Keywords by first converting them into Affiliate Links (useful, if you are restricting the number of Affiliate Links per blog post/page)
 - Customize every Affiliate Link with different font size, font name
+- Show Title Text (tool tip) that appears when user hovers mouse over an Affiliate Link
 
 Note: This free version works with most of the interesting features but restricted to manage 3 different Affiliate Links only. You can always upgrade to the Premium version of AffiLinker for more links and more features.
 
@@ -61,12 +60,12 @@ Good Luck !
 == Frequently Asked Questions ==
 = What is the purpose of AffiLinker Affiliate WordPress Plugin ? =
 Long story short, AffiLinker helps to quickly monetize your WordPress blog and helps to increase your blog income instantly + search engine friendly.
-It converts the specified keywords into given Affiliate Links automatically that are not indexable by search engines like Google and you can also show a collection of Affiliate Links as a Cloud on Sidebar/Footerbar.
+It converts the specified keywords into given Affiliate Links automatically that are search engine friendly and you can also show a collection of Affiliate Links as a Cloud on Sidebar/Footerbar.
 = Do inserting Affiliate Links using JavaScript runtime is a legitimate way ? =
 Yes, there is nothing wrong in using JavaScript to generated Links runtime. In fact, search engines like Google are evolving intelligently to fetch URLs from JavaScript. However, with AffiLinker the links are not visible in the source code and they are generated runtime. Links are simply kept like ascii encoded. Keep in mind, this is not a black-hat plugin to hide affiliate links.
 Affiliate Links placed only in blog posts, pages are created using JavaScript and Affiliate Links on comment section, link cloud are all normal HTML links.
 = Do you have a premium version of AffiLinker ? =
-Yes, the premium version has more interesting features. Please download it <a href="http://www.affilinker.com/affiliate-wordpress-plugin/">here</a>.
+Yes, the premium version has more interesting features and it can manage unlimited number of affiliate links. Please download it <a href="http://www.affilinker.com/affiliate-wordpress-plugin/">here</a>.
 = Why do Affiliate Links are not appearing in my blog posts,pages ? =
 AffiLinker relies on wp_footer. If your WordPress theme doesn't uses wp_footer,  you may not see Affiliate Links so make sure your theme uses wp_footer according to WordPress guidelines.
 = Is it possible to customize the link style uniquely for each and every Affiliate Link ? =
@@ -82,8 +81,8 @@ Yes, there is a built-in hit counter which shows the total number of clicks, uni
 2 – AffiLinker List which shows the links as a list – to enable select “ Keywords as List” in widget options.
 3,4 - Interactive Links which shows the links as a tag/cloud with all the styles applied.
 == Screenshots ==
-1. Options to add your new link and keywords
-2. AffiLinker cloud widget options
+1. AffiLinker basic options
+2. AffiLinker interactive options
 3. Options to edit, delete the selected links and keywords
 4. General settings of AffiLinker
 5. Track clicks on each and every Affiliate Link
@@ -101,6 +100,9 @@ Yes, there is a built-in hit counter which shows the total number of clicks, uni
 * Improvements to take correct default values
 = 1.3.0 =
 * Added new option to disable jQuery Script (helps to resolve any jQuery conflicts) esp. with other WordPress plugins that uses jQuery.
+= 1.4.0 =
+* Minor bug fixes
+* New support for Hover title text (appears when user hovers over link) added as a disabled feature
 == Other Notes ==
 NA
  == Upgrade Notice == 
