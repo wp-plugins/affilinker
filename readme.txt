@@ -1,9 +1,14 @@
 === AffiLinker Affiliate === 
 Contributors: Ven Tesh 
 Donate link: http://www.affilinker.com/affiliate-wordpress-plugin/ 
-Tags: affiliate, affiliate plugin, tag cloud, affilinker, links, link, keywords, google, money, widget, tag, cloud, affiliate link,google webmaster,automatic Requires at least: 3.0 Tested up to: 4.2.3 Stable tag: 1.5.0 License: GPLv2 or later Automatically convert given keywords into Search Engine Friendly Affiliate Links (+colorful interactive links) throughout your blog. 
+Tags: affiliate, affiliate plugin, tag cloud, affilinker, links, link, keywords, google, money, widget, tag, cloud, affiliate link,google webmaster,automatic
+Requires at least: 3.0
+Tested up to: 4.2.3
+Stable tag: 1.5.0
+License: GPLv2 or later 
+Automatically convert given keywords into Search Engine Friendly Affiliate Links (+colorful interactive links) throughout your blog. 
 == Description == 
-The idea of AffiLinker WordPress Plugin is to automatically convert the given keywords into interactive + profitable Affiliate Links that your visitors Love-To-Click. The Affiliate Links on Posts/Pages.
+The idea of AffiLinker WordPress Plugin is to automatically convert the given keywords into interactive + profitable Affiliate Links that your visitors Love-To-Click on blog posts, pages.
 
 <a href="http://www.affilinker.com/affiliate-wordpress-plugin/">Download Pro-Version</a>
 
