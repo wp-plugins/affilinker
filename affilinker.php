@@ -2,10 +2,10 @@
 /*
 Plugin Name: AffiLinker
 Plugin URI: http://www.affilinker.com/affiliate-wordpress-plugin/
-Description: WordPress plugin (lite version) to automatically convert keywords into Affiliate Links and to show Affiliate Link Cloud widget - <a href="http://www.affilinker.com/affiliate-wordpress-plugin/" target = "_blank">Download Pro-Version here</a>
+Description: WordPress plugin (lite version) to automatically convert keywords into Affiliate Links and to show Affiliate Link Cloud widget - <a href="http://www.affilinker.com/affiliate-wordpress-plugin/" target = "_blank">Download Pro-Version here</a> - <a href="http://www.blasho.com/blog" target="_blank">Our Blog</a>
 Author: Ven Tesh
-Version: 1.4.0
-Author URI: http://www.blasho.com/about/
+Version: 1.5.0
+Author URI: http://www.blasho.com/
 */
 
 add_action('admin_init', 'AffiLinker_Operations');
@@ -77,7 +77,9 @@ $affl_underline_options_array = array(
 	$affl_widget_title = $affl_widget_title ? $affl_widget_title : 'AffiLinker Cloud';
 	$affl_link_term = get_option("affl_link_term");
 
-	echo "\n" . $before_title; echo $affl_widget_title; echo $after_title;
+        echo "\n" . $before_title;
+        echo $affl_widget_title;
+        echo $after_title;
 
 	global $wpdb;
 	$table_name = $wpdb->prefix . "AffiLinker_db";
@@ -111,74 +113,60 @@ $affl_underline_options_array = array(
 	if ($affl_widget_type == 20)
 		echo '<ul>';
 
-	foreach($myrows as $row)
-	{
+        foreach ($myrows as $row) {
 		if ($affl_widget_no_keywords == 0)
 			break;
 			
-		if(!is_null($row->keywords))
-		{
+            if (!is_null($row->keywords)) {
 			if ($row->include_keyword != 1)
 				continue;
 				
 			$keys = explode(',',$row->keywords);
 
-			foreach($keys as $key) 
-			{
+                foreach ($keys as $key) {
 				$key = trim($key);
 				$direct_style = 0;
-				if ($affl_widget_interactive_opt == 1)
-				{
-					if ( (!is_null($row->link_color)) || (!is_null($row->bg_color)) || (!is_null($row->hover_color)) || (!is_null($row->hover_bg_color))  ||  ($row->font_family != 0) || ($row->link_style_bold == 1) || ($row->link_style_italics == 1)  || ($affl_widget_type == 21))
-					{
+                    if ($affl_widget_interactive_opt == 1) {
+                        if ((!is_null($row->link_color)) || (!is_null($row->bg_color)) || (!is_null($row->hover_color)) || (!is_null($row->hover_bg_color)) || ($row->font_family != 0) || ($row->link_style_bold == 1) || ($row->link_style_italics == 1) || ($affl_widget_type == 21)) {
 						$randno4css = 'cw'. rand();
 
 						$linkformat = '<style type="text/css"> a.'.$randno4css . '{';
 
-						if ($affl_widget_type == 21)
-						{
+                            if ($affl_widget_type == 21) {
 							$linkformat = $linkformat . 'font-size:' . rand($affl_widget_font_startpx,$affl_widget_font_endpx) . 'px;';
 						}
 
-						if ($row->link_color != '')
-						{
+                            if ($row->link_color != '') {
 							$linkformat = $linkformat . 'color:' . $row->link_color . ';';
 						}
 
-						if ($row->bg_color != '')
-						{
+                            if ($row->bg_color != '') {
 							$linkformat = $linkformat . 'background-color:' . $row->bg_color . ';';
 						}
 
-						if ($row->font_size != 0)
-						{
+                            if ($row->font_size != 0) {
 							//$linkformat = $linkformat . 'font-size:' . $row->font_size . 'px;';
 						}
 
-						if ($row->font_family != 0)
-						{
+                            if ($row->font_family != 0) {
 							$linkformat = $linkformat . 'font-family:' . $family_array[$row->font_family] . ';';
 						}
 
-						if ($row->link_style_bold == 1)
-						{
+                            if ($row->link_style_bold == 1) {
 							$linkformat = $linkformat . 'font-weight:bold;';
 						}
 
-						if ($row->link_style_italics == 1)
-						{
+                            if ($row->link_style_italics == 1) {
 							$linkformat = $linkformat . 'font-style:italic;';
 						}
 
-						if ($row->affl_underline_options != 0)
-						{
+                            if ($row->affl_underline_options != 0) {
 							$linkformat = $linkformat . $affl_underline_options_array[$row->affl_underline_options];
 						}
 
 						$linkformat = $linkformat . "}";
 
-						if ( ($row->hover_color != '') || ($row->hover_bg_color != '') )
-						{
+                            if (($row->hover_color != '') || ($row->hover_bg_color != '')) {
 							$linkformat = $linkformat . " ." . $randno4css . ":hover{";
 
 							if ($row->hover_color != '')
@@ -196,10 +184,8 @@ $affl_underline_options_array = array(
 						$direct_style = 1;
 					}
 				}
-				else
-				{
-					if ($affl_widget_type == 21)
-					{
+                    else {
+                        if ($affl_widget_type == 21) {
 						$linkformat = 'style="';
 
 						$linkformat = $linkformat . 'font-size:' . rand($affl_widget_font_startpx,$affl_widget_font_endpx) . 'px;';
@@ -210,33 +196,24 @@ $affl_underline_options_array = array(
 					}
 				}
 
-				if ($row->link_nofollow == 1)
-				{
+                    if ($row->link_nofollow == 1) {
 					$linknofollow = ' rel = "nofollow" ';
-				}
-				else
-				{
+                    } else {
 					$linknofollow = ' ';
 				}
 
-				if ($row->link_target == 1)
-				{
+                    if ($row->link_target == 1) {
 					$linklink_target = ' target = "_self" ';
-				}
-				else
-				{
+                    } else {
 					$linklink_target = ' target = "_blank" ';
 				}
 
-				if ($row->alt_link_keyword == 1)
-				{
+                    if ($row->alt_link_keyword == 1) {
 //					echo '*' . $key . '*[' . str_replace(' ','-',$key) . ']';
 
 
 					$link =  'http://'.$_SERVER['HTTP_HOST'] . '/' . $affl_link_term . '/'. str_replace(' ','-',$key) . '/';
-				}
-				else
-				{
+                    } else {
 					$link = $row->link;
 				}
 
@@ -255,15 +232,13 @@ $affl_underline_options_array = array(
 					
 				$affl_widget_no_keywords_counter = $affl_widget_no_keywords_counter + 1;
 
-				if (($affl_widget_avoid_dup == 1) || ($affl_widget_no_keywords_counter == $affl_widget_no_keywords))
-				{
+                    if (($affl_widget_avoid_dup == 1) || ($affl_widget_no_keywords_counter == $affl_widget_no_keywords)) {
 					break;
 				}
 			}
 		}
 
-		if ($affl_widget_no_keywords_counter == $affl_widget_no_keywords)
-		{
+            if ($affl_widget_no_keywords_counter == $affl_widget_no_keywords) {
 			break;
 		}
 	}
@@ -273,7 +248,6 @@ $affl_underline_options_array = array(
 
 	//echo $after_title;
 	
-	//wp125_write_ads();
 	echo $after_widget;
 }
 
@@ -283,8 +257,7 @@ $affl_underline_options_array = array(
 	return $new_instance;
     }
 
-    	function form($instance)
-		{
+    function form($instance) {
 			$affl_widget_title = esc_attr($instance['affl_widget_title']);
 			$affl_widget_title = $affl_widget_title ? $affl_widget_title : 'AffiLinker Cloud';
 
@@ -312,52 +285,31 @@ $affl_underline_options_array = array(
 			How To Display AffiLinks ? <br/>';
 
 			echo '<select name="' . $this->get_field_name('affl_widget_type') . '">';
-			if ($affl_widget_type == 20)
-			{
+        if ($affl_widget_type == 20) {
 			echo '<option selected id="' . $this->get_field_id('affl_widget_type') . '" value="20" > Keywords as List</option>
 			<option id="' . $this->get_field_id('affl_widget_type') . '" value="21" >Keywords as Cloud</option></select>';
-			}
-			else
-			{
+        } else {
 			echo '<option id="' . $this->get_field_id('affl_widget_type') . '" value="20" > Keywords as List</option>
 			<option selected id="' . $this->get_field_id('affl_widget_type') . '" value="21" > Keywords as Cloud</option></select>';
 			}
 			echo '<br/>';
 
 			echo '<br/>For Keywords as Cloud:<br/>   Minimum Font <input type="text" id="' . $this->get_field_id('affl_widget_font_startpx') . '" name="' . $this->get_field_name('affl_widget_font_startpx') . '" value = "' . $affl_widget_font_startpx . '" size="3"/>px<br/>   Maximum Font <input type="text" id="' . $this->get_field_id('affl_widget_font_endpx') . '" name="' . $this->get_field_name('affl_widget_font_endpx') . '" value = "' . $affl_widget_font_endpx . '" size="3"/>px';
-			/*
-			if ($affl_widget_type == 3)
-			{
-			echo '<input type="radio" name="affl_widget_type" value="3" checked="yes"  />&nbsp; Keywords as Random Cloud<br/><br/>';
-			}
-			else
-			{
-			echo '<input type="radio" name="affl_widget_type" value="3"  />&nbsp; Keywords as Random Cloud<br/><br/>';
-			}
-			*/
-			if ($affl_widget_interactive_opt == 1)
-			{
+
+        if ($affl_widget_interactive_opt == 1) {
 			echo '<br/><br/><input type="checkbox" id="' . $this->get_field_id('affl_widget_interactive_opt') . '" name="' . $this->get_field_name('affl_widget_interactive_opt') . '" value="1"  CHECKED />&nbsp; Enable Interactive AffiLinks';
-			}
-			else
-			{
+        } else {
 			echo '<br/><br/><input type="checkbox" id="' . $this->get_field_id('affl_widget_interactive_opt') . '" name="' . $this->get_field_name('affl_widget_interactive_opt') . '" value="1"  />&nbsp; Enable Interactive AffiLinks';
 			}
 
-			if ($affl_widget_avoid_dup == 1)
-			{
+        if ($affl_widget_avoid_dup == 1) {
 			echo '<br/><input type="checkbox" id="' . $this->get_field_id('affl_widget_avoid_dup') . '" name="' . $this->get_field_name('affl_widget_avoid_dup') . '" value="1"  CHECKED />&nbsp; Show Only Unique AffiLinks';
-			}
-			else
-			{
+        } else {
 			echo '<br/><input type="checkbox" id="' . $this->get_field_id('affl_widget_avoid_dup') . '" name="' . $this->get_field_name('affl_widget_avoid_dup') . '" value="1"  />&nbsp; Show Only Unique AffiLinks';
 			}
 			echo '<input type="hidden" name="aff_widget_submit" id="aff_widget_submit" value="1" />';
 		}
-}
 
-function myplugin_register_widgets() {
-	register_widget( 'My_Recent_Posts_Widget' );
 }
 
 add_action( 'widgets_init', 'AffiLinker_create_ad_widget' );
@@ -402,7 +354,9 @@ $affl_underline_options_array = array(
 
 	$affl_widget_title = get_option("affl_widget_title");
 
-	echo "\n" . $before_title; echo $affl_widget_title; echo $after_title;
+    echo "\n" . $before_title;
+    echo $affl_widget_title;
+    echo $after_title;
 
 	global $wpdb;
 	$table_name = $wpdb->prefix . "AffiLinker_db";
@@ -422,79 +376,64 @@ $affl_underline_options_array = array(
 	if ($affl_widget_type == 0)
 		echo '<ul>';
 
-	foreach($myrows as $row)
-	{
+    foreach ($myrows as $row) {
 		if ($affl_widget_no_keywords == 0)
 			break;
 			
-		if(!is_null($row->keywords))
-		{
+        if (!is_null($row->keywords)) {
 			if ($row->include_keyword != 1)
 				continue;
 
 			$keys = explode(',',$row->keywords);
 
-			foreach($keys as $key) 
-			{
+            foreach ($keys as $key) {
 				$key = trim($key);
 				$direct_style = 0;
-				if ($affl_widget_interactive_opt == 1)
-				{
-					if ( (!is_null($row->link_color)) || (!is_null($row->bg_color)) || (!is_null($row->hover_color)) || (!is_null($row->hover_bg_color))  ||  ($row->font_family != 0) || ($row->link_style_bold == 1) || ($row->link_style_italics == 1)  || ($affl_widget_type == 1))
-					{
+                if ($affl_widget_interactive_opt == 1) {
+                    if ((!is_null($row->link_color)) || (!is_null($row->bg_color)) || (!is_null($row->hover_color)) || (!is_null($row->hover_bg_color)) || ($row->font_family != 0) || ($row->link_style_bold == 1) || ($row->link_style_italics == 1) || ($affl_widget_type == 1)) {
 						$randno4css = 'cw'. rand();
 
 						$linkformat = '<style type="text/css"> a.'.$randno4css . '{';
 
-						if ($affl_widget_type == 1)
-						{
+                        if ($affl_widget_type == 1) {
 							$linkformat = $linkformat . 'font-size:' . rand($affl_widget_font_startpx,$affl_widget_font_endpx) . 'px;';
 						}
 
-						if ($row->link_color != '')
-						{
+                        if ($row->link_color != '') {
 							$linkformat = $linkformat . 'color:' . $row->link_color . ';';
 						}
 
-						if ($row->bg_color != '')
-						{
+                        if ($row->bg_color != '') {
 							$linkformat = $linkformat . 'background-color:' . $row->bg_color . ';';
 						}
 
-						if ($row->font_size != 0)
-						{
+                        if ($row->font_size != 0) {
 							//$linkformat = $linkformat . 'font-size:' . $row->font_size . 'px;';
 						}
 
-						if ($row->font_family != 0)
-						{
+                        if ($row->font_family != 0) {
 							$linkformat = $linkformat . 'font-family:' . $family_array[$row->font_family] . ';';
 						}
 
-						if ($row->link_style_bold == 1)
-						{
+                        if ($row->link_style_bold == 1) {
 							$linkformat = $linkformat . 'font-weight:bold;';
 						}
 
-						if ($row->link_style_italics == 1)
-						{
+                        if ($row->link_style_italics == 1) {
 							$linkformat = $linkformat . 'font-style:italic;';
 						}
 
-						if (!is_null($row->hover_title_text))
-						{
+                        if (!is_null($row->hover_title_text)) {
 							$linkformat = $linkformat . "title:'" . $row->hover_title_text . "';";
 						}
 						
-						if ($row->affl_underline_options != 0)
-						{
+                        if ($row->affl_underline_options != 0) {
 							$linkformat = $linkformat . $affl_underline_options_array[$row->affl_underline_options];
 						}
 
 						$linkformat = $linkformat . "}";
 
-						if ( ($row->hover_color != '') || ($row->hover_bg_color != '') )
-						{
+                        if (($row->hover_color != '') || ($row->hover_bg_color != '')) {
 							$linkformat = $linkformat . " ." . $randno4css . ":hover{";
 
 							if ($row->hover_color != '')
@@ -512,10 +451,8 @@ $affl_underline_options_array = array(
 						$direct_style = 1;
 					}
 				}
-				else
-				{
-					if ($affl_widget_type == 1)
-					{
+                else {
+                    if ($affl_widget_type == 1) {
 						$linkformat = 'style="';
 
 						$linkformat = $linkformat . 'font-size:' . rand($affl_widget_font_startpx,$affl_widget_font_endpx) . 'px;';
@@ -526,31 +463,22 @@ $affl_underline_options_array = array(
 					}
 				}
 
-				if ($row->link_nofollow == 1)
-				{
+                if ($row->link_nofollow == 1) {
 					$linknofollow = ' rel = "nofollow" ';
-				}
-				else
-				{
+                } else {
 					$linknofollow = ' ';
 				}
 
-				if ($row->link_target == 1)
-				{
+                if ($row->link_target == 1) {
 					$linklink_target = ' target = "_self" ';
-				}
-				else
-				{
+                } else {
 					$linklink_target = ' target = "_blank" ';
 				}
 
-				if ($row->alt_link_keyword == 1)
-				{
+                if ($row->alt_link_keyword == 1) {
 					echo '*' . $key . '*';
 					$link =  'http://'.$_SERVER['HTTP_HOST'] . '/' . $affl_link_term . '/'. str_replace(' ','-',$key) . '/';
-				}
-				else
-				{
+                } else {
 					$link = $row->link;
 				}
 
@@ -569,15 +497,13 @@ $affl_underline_options_array = array(
 					
 				$affl_widget_no_keywords_counter = $affl_widget_no_keywords_counter + 1;
 
-				if (($affl_widget_avoid_dup == 1) || ($affl_widget_no_keywords_counter == $affl_widget_no_keywords))
-				{
+                if (($affl_widget_avoid_dup == 1) || ($affl_widget_no_keywords_counter == $affl_widget_no_keywords)) {
 					break;
 				}
 			}
 		}
 
-		if ($affl_widget_no_keywords_counter == $affl_widget_no_keywords)
-		{
+        if ($affl_widget_no_keywords_counter == $affl_widget_no_keywords) {
 			break;
 		}
 	}
@@ -587,11 +513,9 @@ $affl_underline_options_array = array(
 
 	echo $after_title;
 	
-	//wp125_write_ads();
 	echo $after_widget;
 }
 
-//add_action("plugins_loaded", "AffiLinker_create_ad_widget"); //Create the Widget
 function makeStringSecure ($string) {
    $string = trim($string);
    $string = strip_tags($string);
@@ -603,8 +527,7 @@ function makeStringSecure ($string) {
 
 add_action('init', 'AffiLinker_NavigateToLink');
 function AffiLinker_NavigateToLink() {
-	if (1/*!is_admin()*/) 
-	{
+    if (1/* !is_admin() */) {
 	 	$reqURL = $_SERVER['REQUEST_URI'];
 		$fullURL = 'http://'.$_SERVER['HTTP_HOST'].$reqURL;
 		$affl_link_term = get_option("affl_link_term");
@@ -615,8 +538,10 @@ function AffiLinker_NavigateToLink() {
 		if (stristr($fullURL, $hopURL) !== false) {
 			$reqArr = explode('/', $reqURL);
 			foreach ($reqArr as $key=>$token) {
-				if ($token=='') { unset($reqArr[$key]); }
+                    if ($token == '') {
+                        unset($reqArr[$key]);
 			}
+                }
 			$tag = array_pop($reqArr);
 
 
@@ -627,19 +552,13 @@ function AffiLinker_NavigateToLink() {
 			$table_name_stat = $wpdb->prefix . "AffiLinker_db_stat";
 
 
-	/*		$tag = "testkey";
-			$sel_query = "SELECT * FROM ". $table_name . " WHERE alt_link_keyword='" . $tag ."'";
-			echo $sel_query;
-	*/
 
 			$tag = str_replace('-',' ',$tag);
 			$tag = trim($tag);
 			if (strpos($tag,'%') != FALSE) {
 					$iso_char_found = true;
 					$myrows = $wpdb->get_results( "SELECT * FROM ". $table_name);
-			}
-			else
-			{
+                } else {
 					$iso_char_found = false;
 					$myrows = $wpdb->get_results( "SELECT * FROM ". $table_name . " WHERE keywords like '%" . $tag ."%'" );
 			}
@@ -647,46 +566,35 @@ function AffiLinker_NavigateToLink() {
 
 			//echo $wpdb->num_rows;
 
-			if ($wpdb->num_rows <= 0)
-			{
-//				header('Location: ' . $row->link);
-//echo ' - 0 - ';
+                if ($wpdb->num_rows <= 0) {
 				die;
 			}
-//echo ' - 1 - ';
-			if ( 1 /*!is_admin() && !is_feed() && !is_user_logged_in()*/ )
-			{
+
+                if (1) {
 				$keyword_matched = 1;
-				foreach($myrows as $row) 
-				{
-					if(!is_null($row->keywords))
-					{
+                    foreach ($myrows as $row) {
+                        if (!is_null($row->keywords)) {
 						$keys = explode(',',$row->keywords);
 
-						foreach($keys as $key) 
-						{
+                            foreach ($keys as $key) {
 							$tag = str_replace(array("\r\n"), '', $tag);
 							$key = str_replace(array("\r\n"), '', $key);
 							$key = trim($key);
 							$tag = trim($tag);
-//echo '[ ' . $key . ' - ' . $tag . ' ]';
 
-							if ($iso_char_found == true)
-							{
+                                if ($iso_char_found == true) {
 								$key = urldecode($key);
 								$tag = urldecode(makeStringSecure($tag));
 							}
 
 //echo '[ ' . urldecode( $key) . ' - ' . urldecode(makeStringSecure($tag)) . ' ]';
 							$keyword_matched = strcasecmp($key, $tag);
-							if ($keyword_matched == 0)
-							{
+                                if ($keyword_matched == 0) {
 								$FullRef_URL = $_SERVER['HTTP_REFERER'];
 
 								//matched
 								$afflink_update_query = "UPDATE ". $table_name ." SET link_hit_count=link_hit_count+1 WHERE id='$row->id'";
-//echo $afflink_update_query;
-//die;
+
 								if ($FullRef_URL != '')
 									$results = $wpdb->query( $afflink_update_query );
 								break;
@@ -694,8 +602,7 @@ function AffiLinker_NavigateToLink() {
 						}
 					}
 
-					if ($keyword_matched == 0)
-					{
+                        if ($keyword_matched == 0) {
 						break;
 					}
 				}
@@ -703,31 +610,25 @@ function AffiLinker_NavigateToLink() {
 
 			$FullRef_URL = $_SERVER['HTTP_REFERER'];
 
-			if ($FullRef_URL != '')
-			{
+                if ($FullRef_URL != '') {
 				$table_name_stat_uniq = $wpdb->prefix . "AffiLinker_db_stat_uniq";
 				$affl_ip_address = $_SERVER['REMOTE_ADDR'];
 
 				$myrows = $wpdb->get_results( "SELECT * FROM ". $table_name_stat_uniq . " WHERE hit_keyword='$key' AND affl_ip_address='$affl_ip_address'");
-				if ($wpdb->num_rows <= 0)
-				{
+                    if ($wpdb->num_rows <= 0) {
 					$rows_affected = $wpdb->insert( $table_name_stat_uniq, array( 'affl_ip_address' => $affl_ip_address, 'hit_keyword' => $key) );
 				}
 
 		
 
 				$keyword_row_stat = $wpdb->get_results( "SELECT * FROM ". $table_name_stat . " WHERE hit_keyword='$key' AND referral_link='" . $FullRef_URL . "'");
-				if ($wpdb->num_rows > 0)
-				{
-					foreach($keyword_row_stat as $row_stat)
-					{
+                    if ($wpdb->num_rows > 0) {
+                        foreach ($keyword_row_stat as $row_stat) {
 						//existing rec
 						$rows_affected = $wpdb->update( $table_name_stat, array('link_hit_count' => $row_stat->link_hit_count + 1), array( 'hit_keyword' => $key, 'referral_link' => $FullRef_URL ));
 						break;
 					}
-				}
-				else
-				{
+                    } else {
 					$rows_affected = $wpdb->insert( $table_name_stat, array( 'referral_link' => $FullRef_URL, 'hit_keyword' => $key, 'link_hit_count' => 1) );
 				}
 			}
@@ -741,8 +642,7 @@ function AffiLinker_NavigateToLink() {
 }
 
 
-function AffiLinker_Operations() 
-{
+function AffiLinker_Operations() {
 	global $wpdb;
 
 	$table_name = $wpdb->prefix . "AffiLinker_db";
@@ -760,7 +660,7 @@ function AffiLinker_Operations()
 
 		$rown = $rown + 1;
 		}
-		if ($rown >= ($rowchk+1))
+		if ($rown >= ($rowchk+4))
 		{
 			wp_redirect("admin.php?page=affilinker/affilinker.php");
 		}
@@ -794,8 +694,7 @@ function AffiLinker_Operations()
 
 	//$link_hit_count = filter_input(INPUT_POST, 'link_hit_count', FILTER_SANITIZE_SPECIAL_CHARS); 
 	$link_hit_count = 0;
-		if ($keywords != '')
-		{
+            if ($keywords != '') {
 			$rows_affected = $wpdb->insert( $table_name, array( 'link' => $link, 'keywords' => $keywords, 'link_color' => $link_color, 'bg_color' => $bg_color,
 				'hover_color' => $hover_color, 'hover_bg_color' => $hover_bg_color, 'font_size' => $font_size, 'font_family' => $font_family, 
 				'link_style_bold' => $link_style_bold, 'link_style_italics' => $link_style_italics, 'affl_underline_options' => $affl_underline_options,
@@ -805,8 +704,7 @@ function AffiLinker_Operations()
 	}			
 	}
 
-	if ($_POST['affl_savegs_changes']=='ok')
-	{
+    if ($_POST['affl_savegs_changes'] == 'ok') {
 
 	check_admin_referer('AffiLinker-AFFL_gsettings');
 
@@ -832,66 +730,53 @@ function AffiLinker_Operations()
 	$afflinker_jquery_opt = filter_input(INPUT_POST, 'afflinker_jquery_opt', FILTER_SANITIZE_SPECIAL_CHARS); 
 	
 	
-		if ($afflinker_enable == '')
-		{
+        if ($afflinker_enable == '') {
 			$afflinker_enable = 0;
 		}
 	
-		if ($affl_num_of_keywords == '')
-		{
+        if ($affl_num_of_keywords == '') {
 			$affl_num_of_keywords = 5;
 		}
 
-		if ($affl_num_of_keywords_percomment == '')
-		{
+        if ($affl_num_of_keywords_percomment == '') {
 			$affl_num_of_keywords_percomment = 5;
 		}
 
-		if ($affl_num_samekey_perpost == '')
-		{
+        if ($affl_num_samekey_perpost == '') {
 			$affl_num_samekey_perpost = 2;
 		}
 		
-		if ($affl_num_samekey_oncommsec == '')
-		{
+        if ($affl_num_samekey_oncommsec == '') {
 			$affl_num_samekey_oncommsec = 2;
 		}
 		
-		if ($affl_link_term == '')
-		{
+        if ($affl_link_term == '') {
 			$affl_link_term = 'visit';
 		}
 
-		if ($affl_postcontrol == '')
-		{
+        if ($affl_postcontrol == '') {
 			$affl_postcontrol = 1;
 		}
 
-		if ($affl_link_on_comments == '')
-		{
+        if ($affl_link_on_comments == '') {
 			$affl_link_on_comments = 0;
 		}
-		if ($affl_link_on_homepage == '')
-		{
+        if ($affl_link_on_homepage == '') {
 			$affl_link_on_homepage = 1;
 		}
 
-		if ($affl_keyword_priority == '')
-		{
-			$affl_keyword_priority = 0;
+        if ($affl_keyword_priority == '') {
+            $affl_keyword_priority = 1;
 		}
-		if ($affl_interactive_afflinks == '')
-		{
+        if ($affl_interactive_afflinks == '') {
 			$affl_interactive_afflinks = 1;
 		}
 
-		if ($affl_num_of_wordcount == '')
-		{
+        if ($affl_num_of_wordcount == '') {
 			$affl_num_of_wordcount = -1;
 		}
 
-		if ($afflinker_jquery_opt == '')
-		{
+        if ($afflinker_jquery_opt == '') {
 			$afflinker_jquery_opt = 1;
 		}
 
@@ -913,8 +798,7 @@ function AffiLinker_Operations()
 	update_option("afflinker_jquery_opt", $afflinker_jquery_opt);
 	}
 
-	if($_POST['SubmitAll']=='Save All Changes')
-	{
+    if ($_POST['SubmitAll'] == 'Save All Changes') {
 	$idall = $_POST['checkboxall'];
 	$linkall = $_POST['link'];
 	$keywordsall = $_POST['keywords'];
@@ -939,73 +823,58 @@ function AffiLinker_Operations()
 
 	$count = count($linkall);
 
-	for($ids=0; $ids < $count; $ids++)
-	{
+        for ($ids = 0; $ids < $count; $ids++) {
 		$nofollowset = 0;
-		for ($i=0; $i < count($link_nofollowall); $i++)
-		{
-			if ($link_nofollowall[$i] == $idall[$ids])
-			{
+            for ($i = 0; $i < count($link_nofollowall); $i++) {
+                if ($link_nofollowall[$i] == $idall[$ids]) {
 				$nofollowset = 1;
 				break;
 			}
 		}
 
 		$targetset = 0;
-		for ($i=0; $i < count($link_targetall); $i++)
-		{
-			if ($link_targetall[$i] == $idall[$ids])
-			{
+            for ($i = 0; $i < count($link_targetall); $i++) {
+                if ($link_targetall[$i] == $idall[$ids]) {
 				$targetset = 1;
 				break;
 			}
 		}
 
 		$include_keywordset = 0;
-		for ($i=0; $i < count($include_keywordall); $i++)
-		{
-			if ($include_keywordall[$i] == $idall[$ids])
-			{
+            for ($i = 0; $i < count($include_keywordall); $i++) {
+                if ($include_keywordall[$i] == $idall[$ids]) {
 				$include_keywordset = 1;
 				break;
 			}
 		}
 
 		$link_style_boldset = 0;
-		for ($i=0; $i < count($link_style_boldall); $i++)
-		{
-			if ($link_style_boldall[$i] == $idall[$ids])
-			{
+            for ($i = 0; $i < count($link_style_boldall); $i++) {
+                if ($link_style_boldall[$i] == $idall[$ids]) {
 				$link_style_boldset = 1;
 				break;
 			}
 		}
 
 		$link_style_italicsset = 0;
-		for ($i=0; $i < count($link_style_italicsall); $i++)
-		{
-			if ($link_style_italicsall[$i] == $idall[$ids])
-			{
+            for ($i = 0; $i < count($link_style_italicsall); $i++) {
+                if ($link_style_italicsall[$i] == $idall[$ids]) {
 				$link_style_italicsset = 1;
 				break;
 			}
 		}
 
 		$alt_link_keywordset = 0;
-		for ($i=0; $i < count($alt_link_keywordall); $i++)
-		{
-			if ($alt_link_keywordall[$i] == $idall[$ids])
-			{
+            for ($i = 0; $i < count($alt_link_keywordall); $i++) {
+                if ($alt_link_keywordall[$i] == $idall[$ids]) {
 				$alt_link_keywordset = 1;
 				break;
 			}
 		}
 
 		$keyword_priorityset = 0;
-		for ($i=0; $i < count($keyword_priorityall); $i++)
-		{
-			if ($keyword_priorityall[$i] == $idall[$ids])
-			{
+            for ($i = 0; $i < count($keyword_priorityall); $i++) {
+                if ($keyword_priorityall[$i] == $idall[$ids]) {
 				$keyword_priorityset = 1;
 				break;
 			}
@@ -1023,14 +892,12 @@ function AffiLinker_Operations()
 	}
 
 	if($_POST['SubmitAll']=='Delete Selected') {
-	//		check_admin_referer('AffiLinker_deleteselected');
 
 	$checked = $_POST['checkbox1'];
 
 	$count = count($checked);
 
-	for($ids=0; $ids < $count; $ids++)
-	{
+        for ($ids = 0; $ids < $count; $ids++) {
 		$wpdb->query("DELETE FROM ". $table_name ." WHERE id = '". $checked[$ids] ."' LIMIT 1");
 	}
 
@@ -1072,38 +939,32 @@ global $afflt;
 	<form name="AFFL_gsettings" method="post">';
 
 		$affl_num_of_keywords = get_option("affl_num_of_keywords");
-		if ($affl_num_of_keywords == '')
-		{
+    if ($affl_num_of_keywords == '') {
 			$affl_num_of_keywords = 5;
 		}
 
 		$affl_num_of_keywords_percomment = get_option("affl_num_of_keywords_percomment");
-		if ($affl_num_of_keywords_percomment == '')
-		{
+    if ($affl_num_of_keywords_percomment == '') {
 			$affl_num_of_keywords_percomment = 5;
 		}
 
 		$affl_num_samekey_perpost = get_option("affl_num_samekey_perpost");
-		if ($affl_num_samekey_perpost == '')
-		{
+    if ($affl_num_samekey_perpost == '') {
 			$affl_num_samekey_perpost = 2;
 		}
 		
 		$affl_num_samekey_oncommsec = get_option("affl_num_samekey_oncommsec");
-		if ($affl_num_samekey_oncommsec == '')
-		{
+    if ($affl_num_samekey_oncommsec == '') {
 			$affl_num_samekey_oncommsec = 2;
 		}
 		
 		$affl_link_term = get_option("affl_link_term");
-		if ($affl_link_term == '')
-		{
+    if ($affl_link_term == '') {
 			$affl_link_term = 'visit';
 		}
 
 		$affl_postcontrol = get_option("affl_postcontrol");
-		if ($affl_postcontrol == '')
-		{
+    if ($affl_postcontrol == '') {
 			$affl_postcontrol = 1;
 		}
 
@@ -1112,12 +973,10 @@ global $afflt;
 		$affl_link_on_comments = get_option("affl_link_on_comments");
 		$affl_link_on_homepage = get_option("affl_link_on_homepage");
 
-		if ($affl_link_on_comments == '')
-		{
+    if ($affl_link_on_comments == '') {
 			$affl_link_on_comments = 0;
 		}
-		if ($affl_link_on_homepage == '')
-		{
+    if ($affl_link_on_homepage == '') {
 			$affl_link_on_homepage = 1;
 		}
 
@@ -1127,14 +986,12 @@ global $afflt;
 		{
 			$affl_keyword_priority = 0;
 		}
-		if ($affl_interactive_afflinks == '')
-		{
+    if ($affl_interactive_afflinks == '') {
 			$affl_interactive_afflinks = 1;
 		}
 
 		$afflinker_jquery_opt = get_option("afflinker_jquery_opt");
-		if ($afflinker_jquery_opt == '')
-		{
+    if ($afflinker_jquery_opt == '') {
 			$afflinker_jquery_opt = 1;
 		}
 
@@ -1142,8 +999,7 @@ global $afflt;
 
 
 		$affl_num_of_wordcount = get_option("affl_num_of_wordcount");
-		if ($affl_num_of_wordcount == '')
-		{
+    if ($affl_num_of_wordcount == '') {
 			$affl_num_of_wordcount = -1;
 		}
 
@@ -1156,12 +1012,9 @@ global $afflt;
 		<tr  valign="top" >
 			<td height="50px">AffiLinker Troubles You ?</td>
 			<td height="50px">';
-				if ($afflinker_enable == 1)
-				{
+    if ($afflinker_enable == 1) {
 					echo '<input type="checkbox" name="afflinker_enable" value="1" CHECKED/>&nbsp;Enable AffiLinker<br/>';
-				}
-				else
-				{
+    } else {
 					echo '<input type="checkbox" name="afflinker_enable" value="1" />&nbsp;Enable AffiLinker<br/>';
 				}
 
@@ -1185,21 +1038,15 @@ global $afflt;
 		<tr  valign="top">
 			<td height="100px">Control AffiLinker by Blog Post/Page </td>
 			<td height="100px">';
-				if ($affl_postcontrol == 1)
-				{
+    if ($affl_postcontrol == 1) {
 					echo '<input type="radio" name="affl_postcontrol" value="1" checked="yes" />&nbsp;Default - Show In All Blog Posts/Pages&nbsp;';
-				}
-				else
-				{
+    } else {
 					echo '<input type="radio" name="affl_postcontrol" value="1" />&nbsp;Default - Show In All Blog Posts/Pages&nbsp;';
 				}
 
-				if ($affl_postcontrol == 2)
-				{
+    if ($affl_postcontrol == 2) {
 					echo '<br/> <br/><input type="radio" name="affl_postcontrol" value="2" checked="yes" />&nbsp;Ignore The Below Blog Posts/Pages';
-				}
-				else
-				{
+    } else {
 					echo '<br/> <br/><input type="radio" name="affl_postcontrol" value="2" />&nbsp;Ignore The Below Blog Posts/Pages';
 				}
 
@@ -1207,12 +1054,9 @@ global $afflt;
 				<small>Specify blog post/page IDs seperated by comma, AffiLinker <strong>NEVER</strong> converts any keyword into link on these blog posts.</small>
 				<br/> <br/>';
 
-				if ($affl_postcontrol == 3)
-				{
+    if ($affl_postcontrol == 3) {
 					echo '<input type="radio" name="affl_postcontrol" value="3" checked="yes" />&nbsp;Add Only on Below Blog Posts/Pages';
-				}
-				else
-				{
+    } else {
 					echo '<input type="radio" name="affl_postcontrol" value="3" />&nbsp;Add Only on Below Blog Posts/Pages';
 				}
 
@@ -1231,13 +1075,10 @@ global $afflt;
 		<tr  valign="top">
 			<td height="50px">Donot Add Links on Homepage</td>
 			<td height="50px">';
-				if ($affl_link_on_homepage == 0)
-				{
+    if ($affl_link_on_homepage == 0) {
 					echo '<input type="checkbox" name="affl_link_on_homepage" value="1" />&nbsp;Donot Add<br/>
 					<small>Not recommended when you show only excerpts (instead of full blog post) on homepage.</small>';
-				}
-				else
-				{
+    } else {
 					echo '<input type="checkbox" name="affl_link_on_homepage" value="1" CHECKED/>&nbsp;Donot Add<br/>
 					<small>Not recommended when you show only excerpts (instead of full blog post) on homepage.</small>';
 				}
@@ -1247,12 +1088,9 @@ global $afflt;
 		<tr  valign="top">
 			<td height="50px">Add Links on Comments</td>
 			<td height="50px">';
-				if ($affl_link_on_comments == 1)
-				{
+    if ($affl_link_on_comments == 1) {
 					echo '<input type="checkbox" name="affl_link_on_comments" value="1" CHECKED/>&nbsp;Enable<br/>';
-				}
-				else
-				{
+    } else {
 					echo '<input type="checkbox" name="affl_link_on_comments" value="1" />&nbsp;Enable<br/>';
 				}
 			echo '</td>
@@ -1293,13 +1131,10 @@ global $afflt;
 		<tr  valign="top">
 			<td height="80px">Interactive Affiliate Links </td>
 			<td height="80px">';
-				if ($affl_interactive_afflinks == 1)
-				{
+    if ($affl_interactive_afflinks == 1) {
 					echo '<input type="radio" name="affl_interactive_afflinks" value="1" checked="yes" />&nbsp;Enable<br/>';
 					echo '<input type="radio" name="affl_interactive_afflinks" value="0" />&nbsp;Disable<br/>';
-				}
-				else
-				{
+    } else {
 					echo '<input type="radio" name="affl_interactive_afflinks" value="1" />&nbsp;Enable<br/>';
 					echo '<input type="radio" name="affl_interactive_afflinks" value="0" checked="yes" />&nbsp;Disable<br/>';
 				}
@@ -1317,13 +1152,10 @@ global $afflt;
 		<tr  valign="top" >
 			<td height="50px">JQuery Script</td>
 			<td height="50px">';
-				if ($afflinker_jquery_opt == 1)
-				{
+    if ($afflinker_jquery_opt == 1) {
 					echo '<input type="radio" name="afflinker_jquery_opt" value="1" checked="yes" />&nbsp;Enable<br/>';
 					echo '<input type="radio" name="afflinker_jquery_opt" value="0" />&nbsp;Disable<br/>';
-				}
-				else
-				{
+    } else {
 					echo '<input type="radio" name="afflinker_jquery_opt" value="1" />&nbsp;Enable<br/>';
 					echo '<input type="radio" name="afflinker_jquery_opt" value="0" checked="yes" />&nbsp;Disable<br/>';
 				}
@@ -1343,8 +1175,7 @@ global $afflt;
 	echo '</div>';
 }
 
-function AffiLinker_TrackAffiliates()
-{
+function AffiLinker_TrackAffiliates() {
 echo '<script type="text/javascript">
 <!--
       function Affl_confirmAction() {
@@ -1402,16 +1233,11 @@ background-color: blue;
 
 	if($_POST['hitcountsort']=='Sort Up') {
 
-//		check_admin_referer('AffiLinker_sort');
 
-//		$myrows = $wpdb->get_results( "SELECT * FROM ". $table_name . " ORDER BY link_hit_count DESC");
 		$myrows = $wpdb->get_results( "SELECT * FROM ". $table_name . " GROUP BY hit_keyword ORDER BY SUM(link_hit_count) DESC");
-	}
-	else 	if($_POST['hitcountsort']=='Sort Down') {
+    } else if ($_POST['hitcountsort'] == 'Sort Down') {
 		$myrows = $wpdb->get_results( "SELECT * FROM ". $table_name . " GROUP BY hit_keyword ORDER BY SUM(link_hit_count) ASC");
-	}
-	else
-	{	
+    } else {
 		$myrows = $wpdb->get_results( "SELECT * FROM ". $table_name . " GROUP BY hit_keyword");
 	}
 
@@ -1481,7 +1307,8 @@ $keyword1 = str_replace(array("\r\n"), ' ', $keyword);
 $keyword1 = trim($keyword1);
 $keyword1 = str_replace(' ', '-', $keyword1);
 ?>
-			<td><center><?php echo '<a href=javascript:elementHideShow("' . $keyword1 . '");>';  echo $keyword; ?></a> </center></td>
+                <td><center><?php echo '<a href=javascript:elementHideShow("' . $keyword1 . '");>';
+        echo $keyword; ?></a> </center></td>
 			<td><center>
 			<?php 
 				$query_sum = "SELECT SUM(link_hit_count) FROM " . $table_name . " WHERE hit_keyword='$keyword'";
@@ -1489,7 +1316,8 @@ $keyword1 = str_replace(' ', '-', $keyword1);
 				$result = mysql_query($query_sum);
 $row = mysql_fetch_array($result);
 
-				echo $row['SUM(link_hit_count)']; ?>
+        echo $row['SUM(link_hit_count)'];
+        ?>
 			</center></td>
 			<td>
 				<center>
@@ -1507,10 +1335,8 @@ $row = mysql_fetch_array($result);
 		<?php 
 		$mysubrows = $wpdb->get_results( "SELECT * FROM ". $table_name . " WHERE hit_keyword='$keyword'");
 		$countfortablehdr = 0;
-		foreach ($mysubrows as $subrow)
-		{
-			if ($countfortablehdr == 0)
-			{
+        foreach ($mysubrows as $subrow) {
+            if ($countfortablehdr == 0) {
 				echo '<tr><td COLSPAN="3"><table style="display:none;text-align:center;" id ="' . $keyword1 . '"><thead>
 	<tr>
 		<th><center>Referral URL<center></th><th><center>Total Clicks</center></th> <!-- <th>% of Clicks</th> --> </tr></thead>';
@@ -1525,8 +1351,7 @@ $row = mysql_fetch_array($result);
 				</tr>';
 		}
 
-		if ($countfortablehdr == 1)
-		{
+        if ($countfortablehdr == 1) {
 			echo '</table></td></tr>';
 		}
 ?>
@@ -1560,12 +1385,9 @@ function AffiLinker_MainPage() {
 	$table_name = $wpdb->prefix . "AffiLinker_db";
 
 	if($_GET['AffiLinker_Do']=='sort') {
-//		check_admin_referer('AffiLinker_sort');
 
 		$myrows = $wpdb->get_results( "SELECT * FROM ". $table_name . " ORDER BY link_hit_count DESC");
-	}
-	else
-	{
+    } else {
 		$myrows = $wpdb->get_results( "SELECT * FROM ". $table_name );
 	}
 	
@@ -1818,7 +1640,9 @@ var myPicker = new jscolor.color(document.getElementById("affhover_bg_color"), {
 		<tr  valign="top">
 			<td height="50px">Hide Affiliate Link with Professional Link </td>
 			<td height="50px">
-<input type="checkbox" name="alt_link_keyword" value="1" CHECKED>&nbsp; Hide Link. <br/><small>Example: If the keyword is "buy product" and Link Term is "visit", your affiliate link will be automatically replaced by a professional link: <strong>'; echo bloginfo('url');  echo '/visit/buy-product/</strong></small>
+<input type="checkbox" name="alt_link_keyword" value="1" CHECKED>&nbsp; Hide Link. <br/><small>Example: If the keyword is "buy product" and Link Term is "visit", your affiliate link will be automatically replaced by a professional link: <strong>';
+    echo bloginfo('url');
+    echo '/visit/buy-product/</strong></small>
 			</td>
 		</tr>
 
@@ -1846,7 +1670,7 @@ var myPicker = new jscolor.color(document.getElementById("affhover_bg_color"), {
 
 	<br />
 	<br />
-			<div class="update-nag"><strong><a href="http://www.affilinker.com/affiliate-wordpress-plugin/" target = "_blank">Get AffiLinker Pro-Version</a></strong> to manage unlimited Affiliate Links and unlock all features. This lite version supports only 3 Affiliate Links.</div>
+			<div class="update-nag"><strong><a href="http://www.affilinker.com/affiliate-wordpress-plugin/" target = "_blank">Get AffiLinker Pro-Version</a></strong> to manage unlimited Affiliate Links and unlock all features. Now lite version supports 6 Affiliate Links.</div>
 	<div id="icon-options-general" class="icon32"><br /></div>
 	<a id="up"></a>
 	<h2>Manage All Links</h2>
@@ -1961,14 +1785,10 @@ var myPicker = new jscolor.color(document.getElementById("affedit_hover_bg_color
 			<?php
 				$size_array = array(0,1, 2, 3, 4, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25);
 
-				foreach ($size_array as $i)
-				{
-					if ($i == $font_size)
-					{
+        foreach ($size_array as $i) {
+            if ($i == $font_size) {
 						echo '<option value="' . $i . '" selected>' . $i . '</option>';
-					}
-					else
-					{
+            } else {
 						echo '<option value="' . $i . '">' . $i . '</option>';
 					}
 				}
@@ -1999,14 +1819,10 @@ var myPicker = new jscolor.color(document.getElementById("affedit_hover_bg_color
 				"Verdana");
 				$familyid_array = array(0,1, 2, 3, 4, 5,6,7,8,9,10,11,12,13,14,15,16,17,18,19);
 
-				foreach ($familyid_array as $i)
-				{
-					if ($i == $font_family)
-					{
+        foreach ($familyid_array as $i) {
+            if ($i == $font_family) {
 						echo '<option value="' . $i . '" selected>' . $family_array[$i] . '</option>';
-					}
-					else
-					{
+            } else {
 						echo '<option value="' . $i . '">' . $family_array[$i] . '</option>';
 					}
 				}
@@ -2025,58 +1841,40 @@ var myPicker = new jscolor.color(document.getElementById("affedit_hover_bg_color
 					echo '<input type="checkbox" name="keyword_priority[]" value="'. $id . '" disabled> Priority Keyword<br/>';
 				}
 
-				if ($alt_link_keyword == 1)
-				{
+        if ($alt_link_keyword == 1) {
 					echo '<input type="checkbox" name="alt_link_keyword[]" value="'. $id . '" CHECKED> Hide Affiliate Link<br/>';
-				}
-				else
-				{
+        } else {
 					echo '<input type="checkbox" name="alt_link_keyword[]" value="'. $id . '"> Hide Affiliate Link<br/>';
 				}
 
-				if ($link_nofollow == 1)
-				{
+        if ($link_nofollow == 1) {
 					echo '<input type="checkbox" name="link_nofollow[]" value="'. $id . '" CHECKED> Add NoFollow<br/>';
-				}
-				else
-				{
+        } else {
 					echo '<input type="checkbox" name="link_nofollow[]" value="'. $id . '"> Add NoFollow<br/>';
 				}
 			?>
 			<?php
-				if ($link_target == 1)
-				{
+        if ($link_target == 1) {
 					echo '<input type="checkbox" name="link_target[]" value="'. $id . '" CHECKED> Same Window<br/>';
-				}
-				else
-				{
+        } else {
 					echo '<input type="checkbox" name="link_target[]" value="'. $id . '"> Same Window<br/>';
 				}
 
-				if ($link_style_bold == 1)
-				{
+        if ($link_style_bold == 1) {
 					echo '<input type="checkbox" name="link_style_bold[]" value="'. $id . '" CHECKED> <strong>Bold</strong><br/>';
-				}
-				else
-				{
+        } else {
 					echo '<input type="checkbox" name="link_style_bold[]" value="'. $id . '"> <strong>Bold</strong><br/>';
 				}
 
-				if ($link_style_italics == 1)
-				{
+        if ($link_style_italics == 1) {
 					echo '<input type="checkbox" name="link_style_italics[]" value="'. $id . '" CHECKED> <em>Italics</em><br/>';
-				}
-				else
-				{
+        } else {
 					echo '<input type="checkbox" name="link_style_italics[]" value="'. $id . '"> <em>Italics</em><br/>';
 				}
 
-				if ($include_keyword == 1)
-				{
+        if ($include_keyword == 1) {
 					echo '<input type="checkbox" name="include_keyword[]" value="'. $id . '" CHECKED> Show in Cloud<br/>';
-				}
-				else
-				{
+        } else {
 					echo '<input type="checkbox" name="include_keyword[]" value="'. $id . '"> Show in Cloud<br/>';
 				}
 				$affl_underline_options_id_array = array(0,1, 2, 3, 4, 5,6,7,8,9);
@@ -2092,14 +1890,10 @@ $affl_underline_options_name_array = array(
 	"Weight Double",
 	"Line Covered" );
 				echo '<select name="affl_underline_options[]">';
-				foreach ($affl_underline_options_id_array as $i)
-				{
-					if ($i == $affl_underline_options)
-					{
+        foreach ($affl_underline_options_id_array as $i) {
+            if ($i == $affl_underline_options) {
 						echo '<option value="' . $i . '" selected>' . $affl_underline_options_name_array[$i] . '</option>';
-					}
-					else
-					{
+            } else {
 						echo '<option value="' . $i . '">' . $affl_underline_options_name_array[$i] . '</option>';
 					}
 				}
@@ -2144,43 +1938,35 @@ $affl_underline_options_name_array = array(
 </form>
 <a id="down"></a>
  </div>
- <br/><div class="update-nag"><strong><a href="http://www.affilinker.com/affiliate-wordpress-plugin/" target = "_blank">Get AffiLinker Pro-Version</a></strong> to manage unlimited Affiliate Links and unlock all features. This lite version supports only 3 Affiliate Links.</div>
+ <br/><div class="update-nag"><strong><a href="http://www.affilinker.com/affiliate-wordpress-plugin/" target = "_blank">Get AffiLinker Pro-Version</a></strong> to manage unlimited Affiliate Links and unlock all features. Now lite version supports 6 Affiliate Links.</div>
 	';
 
 //	print_r($myrows);
 }
 
-$number_of_keywordsreplaced = 0;
 global $replace_count_per_keyword;
 global $ascript;
 global $cssscript;
 
 $prev_comment_text = 'A';
 
-function AffiLinker_InsertAffiliateLinksToComment ($comment)
-{
-//	global $number_of_keywordsreplaced;
+function AffiLinker_InsertAffiliateLinksToComment($comment) {
 
 	global $prev_comment_text;
 
-	if ($prev_comment_text != $comment)
-	{
+    if ($prev_comment_text != $comment) {
 		$prev_comment_text = $comment;
-	}
-	else if ( $prev_comment_text == $comment )
-	{
+    } else if ($prev_comment_text == $comment) {
 		return $comment;
 	}
-//		echo '[' . 'TEST' . ']'; 
+
 	$affl_link_on_comments = get_option("affl_link_on_comments");
-	if ($affl_link_on_comments == 1)
-	{
+    if ($affl_link_on_comments == 1) {
 		$number_of_keywords2replace1 = get_option("affl_num_of_keywords_percomment") - $GLOBALS['number_of_keywordsreplaced'];
 
 	//	echo '[' . $number_of_keywords2replace1 . ']';
 
-		if ($number_of_keywords2replace1 > 0)
-		{
+        if ($number_of_keywords2replace1 > 0) {
 			$comment->comment_content = AffiLinker_InsertAffiliateLinks($comment->comment_content, 1, $number_of_keywords2replace1);
 
 		//	echo $comment->comment_content;
@@ -2190,21 +1976,18 @@ function AffiLinker_InsertAffiliateLinksToComment ($comment)
 	return $comment;
 }
 
-function my_custom_jscript ()
-{
+function my_custom_jscript() {
 	global $ascript;
 	global $cssscript;
-	if ($ascript != '')
-	{
+/*
+    if ($ascript != '') {
 		$afflinker_jquery_opt = get_option("afflinker_jquery_opt");
-		if ($afflinker_jquery_opt == '')
-		{
+        if ($afflinker_jquery_opt == '') {
 			$afflinker_jquery_opt = 1;
 			update_option("afflinker_jquery_opt", $afflinker_jquery_opt);
 		}
 
-		if ($afflinker_jquery_opt == 1)
-		{
+        if ($afflinker_jquery_opt == 1) {
 			echo "<script type='text/javascript' src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js' ></script>";
 		}
 		echo "<script type='text/javascript'>//<![CDATA[ 
@@ -2214,20 +1997,17 @@ function getme(el){var s=el.length;var l='';var id=0;while(id <s){l=l+(String.fr
 		});//]]>
 		</script>";
 	}
-
-	if ($cssscript != '')
-	{
+*/
+    if ($cssscript != '') {
 		echo $cssscript;
 	}
 }
 
-function getencryptedLink ($linkhead)
-{
+function getencryptedLink($linkhead) {
 	$linkhead_e = '';
 	$len = strlen($linkhead);
 	$id = 0;
-	while ($id < $len)
-	{
+    while ($id < $len) {
 		$linkhead_e = $linkhead_e . chr(ord($linkhead[$id])+2);
 		$id = $id + 1;
 	}
@@ -2235,8 +2015,7 @@ function getencryptedLink ($linkhead)
 	return	$linkhead_e;
 }
 
-function detectUTF8($string)
-{
+function detectUTF8($string) {
         return preg_match('%(?:
         [\xC2-\xDF][\x80-\xBF]        # non-overlong 2-byte
         |\xE0[\xA0-\xBF][\x80-\xBF]               # excluding overlongs
@@ -2248,12 +2027,9 @@ function detectUTF8($string)
         )+%xs', $string);
 }
 
-function AffiLinker_InsertAffiliateLinks($content, $affl_comment_callback = 0, $number_of_keywords2replace = 0)
-{
-	if (get_option("affl_link_on_homepage") != 0)
-	{
-		if ( is_home() )
-		{
+function AffiLinker_InsertAffiliateLinks($content, $affl_comment_callback = 0, $number_of_keywords2replace = 0) {
+    if (get_option("affl_link_on_homepage") != 0) {
+        if (is_home()) {
 			return	$content;
 		}
 	}
@@ -2265,14 +2041,13 @@ function AffiLinker_InsertAffiliateLinks($content, $affl_comment_callback = 0, $
 	global $linkformat4comm;
 	global $linknofollow;
 	global $linklink_target;
-//	global $number_of_keywordsreplaced;
 	global $linkhead;
 	global $linkclass;
+    global $linkhovertitle;
 	
 	$afflinker_enable = get_option("afflinker_enable");
 
-	if ($afflinker_enable == 0)
-	{
+    if ($afflinker_enable == 0) {
 		return	$content;
 	}
 
@@ -2281,46 +2056,37 @@ function AffiLinker_InsertAffiliateLinks($content, $affl_comment_callback = 0, $
 
 	$affl_postcontrol = get_option("affl_postcontrol");
 
-	if ($affl_comment_callback != 1) // $uperb fix, intelligent fellow
-	{
+    if ($affl_comment_callback != 1) { // $uperb fix, intelligent fellow
 		$ascript = '';
-		$cssscript = '';
+        //$cssscript = ''; //commented to disable js based links
 	}
 	
-	if ($affl_postcontrol == 2)
-	{
+    if ($affl_postcontrol == 2) {
 		$affl_ignoreposts = get_option("affl_ignoreposts");
 		$affl_ignoreposts_list = explode(',',$affl_ignoreposts);
 
-		foreach($affl_ignoreposts_list as $ignoreposts_list) 
-		{
+        foreach ($affl_ignoreposts_list as $ignoreposts_list) {
 			$ignoreposts_list = trim($ignoreposts_list);
 
-			if ($ignoreposts_list == $thePostID)
-			{
+            if ($ignoreposts_list == $thePostID) {
 				return	$content;
 			}
 		}
-	}
-	else if ($affl_postcontrol == 3)
-	{
+    } else if ($affl_postcontrol == 3) {
 		$affl_onlyposts = get_option("affl_onlyposts");
 		$affl_onlyposts_list = explode(',',$affl_onlyposts);
 
 		$continue_key_replace = 0;
-		foreach($affl_onlyposts_list as $onlyposts_list) 
-		{
+        foreach ($affl_onlyposts_list as $onlyposts_list) {
 			$onlyposts_list = trim($onlyposts_list);
 
-			if ($onlyposts_list == $thePostID)
-			{
+            if ($onlyposts_list == $thePostID) {
 				$continue_key_replace = 1;
 				break;
 			}
 		}
 
-		if ($continue_key_replace == 0)
-		{
+        if ($continue_key_replace == 0) {
 			return	$content;
 		}
 	}
@@ -2328,22 +2094,17 @@ function AffiLinker_InsertAffiliateLinks($content, $affl_comment_callback = 0, $
 	$affl_num_of_wordcount = get_option("affl_num_of_wordcount");
 	$affl_num_of_wordcount_tot = sizeof(explode(' ',$content));
 
-	if ($affl_num_of_wordcount != -1)
-	{
-		if ($affl_num_of_wordcount_tot < $affl_num_of_wordcount)
-		{
+    if ($affl_num_of_wordcount != -1) {
+        if ($affl_num_of_wordcount_tot < $affl_num_of_wordcount) {
 			return	$content;
 		}
 	}
 
 	// get number replaces allowed per keyword
 
-	if ($affl_comment_callback == 1)
-	{
+    if ($affl_comment_callback == 1) {
 		$replace_count_per_keyword = get_option("affl_num_samekey_oncommsec");
-	}
-	else
-	{
+    } else {
 		$replace_count_per_keyword = get_option("affl_num_samekey_perpost");
 	}
 
@@ -2384,26 +2145,19 @@ function AffiLinker_InsertAffiliateLinks($content, $affl_comment_callback = 0, $
 				"Verdana");
 $keyword_counter = 0;
 $replaced_counter = 0;
-$replaced_counter_previteration = 0;
 $replaced_countervalue = 0;
 
 $affl_keyword_priority_enable = get_option("affl_keyword_priority");
-if ($affl_keyword_priority_enable == 1)
-{
+    if ($affl_keyword_priority_enable == 1) {
 	$priority_keys_done = 0; // first pri keywords
-}
-else
-{
+    } else {
 	$priority_keys_done = 2;
 }
 
-//find_more_keys:
-	while (1)
-	{
+    while (1) {
 		global $wpdb;
 		$table_name = $wpdb->prefix . "AffiLinker_db";
-		if ($priority_keys_done == 0)
-		{
+        if ($priority_keys_done == 0) {
 //								echo '----PRI----';
 			$myrows = $wpdb->get_results( "SELECT id,link,keywords, alt_link_keyword, link_color, bg_color,hover_color,hover_bg_color, font_size, font_family, link_style_bold, link_style_italics, affl_underline_options, link_nofollow, link_target, include_keyword, hover_title_text  FROM ". $table_name . " WHERE keyword_priority <> 1");
 		}
@@ -2411,73 +2165,55 @@ else
 		{
 //								echo '----NPRI----';
 			$myrows = $wpdb->get_results( "SELECT id,link,keywords, alt_link_keyword, link_color, bg_color, hover_color,hover_bg_color, font_size, font_family, link_style_bold, link_style_italics, affl_underline_options,  link_nofollow, link_target, include_keyword, hover_title_text  FROM ". $table_name . " WHERE keyword_priority <> 1" );
-		}
-		else if ($priority_keys_done == 2)
-		{
+        } else if ($priority_keys_done == 2) {
 //								echo '----ALL----';
 
 			$myrows = $wpdb->get_results( "SELECT id,link,keywords, alt_link_keyword, link_color, bg_color, hover_color,hover_bg_color, font_size, font_family, link_style_bold, link_style_italics,affl_underline_options,  link_nofollow, link_target, include_keyword, hover_title_text  FROM ". $table_name);
 		}
 				$patterns = array();
-		if ($affl_comment_callback == 1)
-		{
+        if ($affl_comment_callback == 1) {
 			$keyword_replace_totcount = $number_of_keywords2replace; //get_option("affl_num_of_keywords_percomment");
-		}
-		else
-		{
+        } else {
 			$keyword_replace_totcount = get_option("affl_num_of_keywords");
 
 			// first comment callback, reset the replaced count
 			$GLOBALS['number_of_keywordsreplaced'] = 0;
 		}
 
-		if ($keyword_replace_totcount <= 0)
-		{
+        if ($keyword_replace_totcount <= 0) {
 			// nothing to replace
 			return $content;
 		}
 
-		if(is_null($myrows))
-		{
-			if ($priority_keys_done == 0)
-			{
+        if (is_null($myrows)) {
+            if ($priority_keys_done == 0) {
 				$priority_keys_done = 1; //pri keywords done
 				//goto find_more_keys;
 				continue;
 			}
 					add_action('wp_footer', 'my_custom_jscript');
 			return $content;
-		}
-		else
-		{
-			foreach($myrows as $row)
-			{
+        } else {
+            foreach ($myrows as $row) {
 				//	$link = $row->link;
 				$link =  'http://'.$_SERVER['HTTP_HOST'] . '/' . $affl_link_term . '/'. $row->alt_link_keyword . '/';
 				$keywords = $row->keywords;
 
-				if(!is_null($keywords)) 
-				{
+                if (!is_null($keywords)) {
 					$keys = explode(',',$keywords);
 
-					foreach($keys as $key) 
-					{
+                    foreach ($keys as $key) {
 						$key = trim($key);
 
-						if (1 /*$replaced_keywords [$key] < $replace_count_per_keyword*/)
-						{
-							if ($row->alt_link_keyword == 1)
-							{
+                        if (1) {
+                            if ($row->alt_link_keyword == 1) {
 								$link =  'http://'.$_SERVER['HTTP_HOST'] . '/' . $affl_link_term . '/'. str_replace(' ','-',$key) . '/';
-							}
-							else
-							{
+                            } else {
 								$link = $row->link;
 							}
 
 							$link = strtolower($link);
 
-				//						$keyword_counter = $keyword_counter + 1;
 
 
 
@@ -2504,67 +2240,53 @@ else
 							   and not(ancestor::a)
 							   and not(ancestor::img)]");
 
-							if(!empty($aff_query_result))
-							{
-								foreach( $aff_query_result as $node)
-								{
-									if ($affl_interactive_afflinks == 0)
-									{
+                            if (!empty($aff_query_result)) {
+                                foreach ($aff_query_result as $node) {
+                                    if ($affl_interactive_afflinks == 0) {
 										$randno4css = 'c' . rand();
 										$linkclass = 'class ="' . $randno4css . '"';
-									}
-									else if ($affl_interactive_afflinks == 1)
-									if ( (!is_null($row->link_color)) || (!is_null($row->bg_color)) || (!is_null($row->hover_color)) || (!is_null($row->hover_bg_color))  || ($row->font_size != 0) ||($row->font_family != 0) || ($row->link_style_bold == 1) || ($row->link_style_italics == 1) )
-									{
-										if ($affl_comment_callback != 1)
-										{
+                                    } else if ($affl_interactive_afflinks == 1)
+                                        if ((!is_null($row->link_color)) || (!is_null($row->bg_color)) || (!is_null($row->hover_color)) || (!is_null($row->hover_bg_color)) || ($row->font_size != 0) || ($row->font_family != 0) || ($row->link_style_bold == 1) || ($row->link_style_italics == 1)) {
+                                            if ($affl_comment_callback != 1) {
 											$randno4css = 'c' . rand();
-											$randno4cssid = $randno4css . 'id'; // id for hidden a tag
+                                                $randno4cssid = $randno4css . 'id'; // id for hiding A tag
 											
 
 											$linkformat = '';
-											//if (!is_null($row->link_color))
-											if ($row->link_color != '')
-											{
+
+                                                if ($row->link_color != '') {
 												$linkformat = $linkformat . 'color:' . $row->link_color . ';';
 											}
 
 											//if (!is_null($row->bg_color))
-											if ($row->bg_color != '')
-											{
+                                                if ($row->bg_color != '') {
 												$linkformat = $linkformat . 'background-color:' . $row->bg_color . ';';
 											}
 
-											if ($row->font_size != 0)
-											{
+                                                if ($row->font_size != 0) {
 												$linkformat = $linkformat . 'font-size:' . $row->font_size . 'px;';
 											}
 
-											if ($row->font_family != 0)
-											{
+                                                if ($row->font_family != 0) {
 												$linkformat = $linkformat . 'font-family:' . $family_array[$row->font_family] . ';';
 											}
 
-											if ($row->link_style_bold == 1)
-											{
+                                                if ($row->link_style_bold == 1) {
 												$linkformat = $linkformat . 'font-weight:bold;';
 											}
 
-											if ($row->link_style_italics == 1)
-											{
+                                                if ($row->link_style_italics == 1) {
 												$linkformat = $linkformat . 'font-style:italic;';
 											}
 
-											if ($row->affl_underline_options != 0)
-											{
+                                                if ($row->affl_underline_options != 0) {
 												$linkformat = $linkformat . $affl_underline_options_array[$row->affl_underline_options];
 											}
 
 											if ($linkformat != '')
 												$linkformat = '<style type="text/css"> #'.$randno4cssid . '{' . $linkformat . '}';
 
-											if ( ($row->hover_color != '') || ($row->hover_bg_color != '') )
-											{
+                                                if (($row->hover_color != '') || ($row->hover_bg_color != '')) {
 												$linkformat = $linkformat . " #" . $randno4cssid . ":hover{";
 
 												if ($row->hover_color != '')
@@ -2579,46 +2301,36 @@ else
 												$linkformat = $linkformat . "</style>";
 
 											// id for span tag
-											$linkclass = 'class ="' . $randno4css . '"';
+                                                $linkclass = 'id ="' . $randno4css . 'id"';
 										}
-										else
-										{
-											//if (!is_null($row->link_color))
+                                            else {
 											$linkformat4comm = 'style="';
 
-											if ($row->link_color != '')
-											{
+                                                if ($row->link_color != '') {
 												$linkformat4comm = $linkformat4comm . 'color:' . $row->link_color . ';';
 											}
 
-											//if (!is_null($row->bg_color))
-											if ($row->bg_color != '')
-											{
+                                                if ($row->bg_color != '') {
 												$linkformat4comm = $linkformat4comm . 'background-color:' . $row->bg_color . ';';
 											}
 
-											if ($row->font_size != 0)
-											{
+                                                if ($row->font_size != 0) {
 												$linkformat4comm = $linkformat4comm . 'font-size:' . $row->font_size . 'px;';
 											}
 
-											if ($row->font_family != 0)
-											{
+                                                if ($row->font_family != 0) {
 												$linkformat4comm = $linkformat4comm . 'font-family:' . $family_array[$row->font_family] . ';';
 											}
 
-											if ($row->link_style_bold == 1)
-											{
+                                                if ($row->link_style_bold == 1) {
 												$linkformat4comm = $linkformat4comm . 'font-weight:bold;';
 											}
 
-											if ($row->link_style_italics == 1)
-											{
+                                                if ($row->link_style_italics == 1) {
 												$linkformat4comm = $linkformat4comm . 'font-style:italic;';
 											}
 
-											if ($row->affl_underline_options != 0)
-											{
+                                                if ($row->affl_underline_options != 0) {
 												$linkformat4comm = $linkformat4comm . $affl_underline_options_array[$row->affl_underline_options];
 											}
 
@@ -2626,34 +2338,30 @@ else
 										}
 									}
 
-									if ($row->link_nofollow == 1)
-									{
+                                    if ($row->link_nofollow == 1) {
 										$linknofollow = ' rel = "nofollow"';
-									}
-									else
-									{
+                                    } else {
 										$linknofollow = '';
 									}
 
-									if ($row->link_target == 1)
-									{
+                                    if ($row->link_target == 1) {
 										$linklink_target = ' target = "_self" ';
-									}
-									else
-									{
+                                    } else {
 										$linklink_target = ' target = "_blank" ';
 									}
 
+                                    if (!is_null($row->hover_title_text) && $row->hover_title_text != '') {
+                                        $linkhovertitle = "title='" . $row->hover_title_text . "'";
+                                    }
 									$linkhead =  '"' . $link . '" ';
 									
 									$patterns[0] = '|\\b' . $key . '\\b|';
-									if ($affl_comment_callback != 1)
-									{
+                                    if ($affl_comment_callback != 1) {
 										$textContent = preg_replace_callback( 
 										              $patterns[0]
-										            , create_function('$m', 'global $link;global $linkformat;global $linknofollow;global $linklink_target;global $linkhead;global $linkclass;
-																// $replacements[0] = $linkformat . "<a " . $linkclass . " href=" . $linkhead .  " " . $linknofollow . " " . $linklink_target . ">". $m[0] ."</a>";
-$replacements[0] = "<span " . str_replace("class", "id",$linkclass) .  ">". $m[0] ."</span>";
+                                                , create_function('$m', 'global $link;global $linkformat;global $linknofollow;global $linklink_target;global $linkhead;global $linkclass; global $linkhovertitle;
+																 $replacements[0] = "<a " . $linkclass . " href=" . $linkhead .  " " . $linknofollow . " " . $linklink_target . " " . $linkhovertitle . ">". $m[0] ."</a>";
+//$replacements[0] = "<span " . str_replace("class", "id",$linkclass) .  ">". $m[0] ."</span>";
 													                 	return $replacements[0];')
 
 										            ,$node->textContent, 1, $replaced_countervalue
@@ -2668,28 +2376,21 @@ $replacements[0] = "<span " . str_replace("class", "id",$linkclass) .  ">". $m[0
 											else
 												$ascript = $ascript . "jQuery('#" . $randno4css . "').wrapInner(jQuery('<a />').attr('href', function(){return '" . $linkhead . "';})";
 												
-											if ($affl_interactive_afflinks == 1)
-											{
+                                        if ($affl_interactive_afflinks == 1) {
 												//$ascript = $ascript . ".attr('style', 'color:" . $row->link_color . ";')";
 												$ascript = $ascript . ".attr('id', '" . $randno4cssid . "')";
 											}
-											if ($row->link_target == 1)
-											{
+                                        if ($row->link_target == 1) {
 												$ascript = $ascript . ".attr({target:'_self'})";
-											}
-											else
-											{
+                                        } else {
 												$ascript = $ascript . ".attr({target:'_blank'})";
 											}
 												$ascript = $ascript . ".attr({rel:'nofollow'})";
-if (!is_null($row->hover_title_text))
-{
+                                        if (!is_null($row->hover_title_text)) {
 	$ascript = $ascript . ".attr({title:'" . $row->hover_title_text . "'})";
 }
 											$ascript = $ascript . ");";
-									}
-									else
-									{
+                                    } else {
 								//	echo $linkformat4comm;
 										$textContent = preg_replace_callback( 
 										              $patterns[0]
@@ -2703,25 +2404,20 @@ if (!is_null($row->hover_title_text))
 
 									$replaced_counter = $replaced_counter + $replaced_countervalue;
 
-									if ( $replaced_counter > $keyword_replace_totcount)
-									{
+                                    if ($replaced_counter > $keyword_replace_totcount) {
 										break;
 									}
 
-									if ($replaced_countervalue > 0)
-									{
-										if ( $replaced_keywords [$key] == ' ' )
-										{
+                                    if ($replaced_countervalue > 0) {
+                                        if ($replaced_keywords [$key] == ' ') {
 											$replaced_keywords [$key] = 0;
 										}
 										
 										$replaced_keywords [$key] = $replaced_keywords [$key] + 1;
 //										echo '[' . $key . ' - ' . $replaced_keywords [$key] . ']';
 
-										if ($replaced_keywords [$key] <= $replace_count_per_keyword)
-										{
-											if ($affl_comment_callback == 1)
-											{
+                                        if ($replaced_keywords [$key] <= $replace_count_per_keyword) {
+                                            if ($affl_comment_callback == 1) {
 												// note down replaced count for comment
 												$GLOBALS['number_of_keywordsreplaced'] = $GLOBALS['number_of_keywordsreplaced'] + 1;
 											}
@@ -2735,9 +2431,7 @@ if (!is_null($row->hover_title_text))
 
 											$content = preg_replace('/^<!DOCTYPE.+?>/', '', str_replace( array('<html>', '</html>', '<body>', '</body>'), array('', '', '', ''), $d->saveHTML()));
 											$content = str_replace(array('&acirc;&#128;&#152;','&acirc;&#128;&#153;', '&acirc;&#128;&#156;' , '&acirc;&#128;&#157;', '~\x2013~', '~\x2014~','~\x8E~',' affhack1 ', '&Acirc;'), array( '&#8216;', '&#8217;', '&#8220;', '&#8221;', '&#8211;', '&#8212;','','&amp;',''), $content);
-										}
-										else
-										{
+                                        } else {
 											$replaced_keywords [$key] = $replaced_keywords [$key] - 1;
 											$replaced_counter = $replaced_counter - 1;
 										}
@@ -2749,25 +2443,21 @@ if (!is_null($row->hover_title_text))
 						}
 
 
-						if ($replaced_counter > $keyword_replace_totcount)
-						{
+                        if ($replaced_counter > $keyword_replace_totcount) {
 //							echo '[END]';
 							break;
 						}
 					}
 				}
 
-				if ($replaced_counter > $keyword_replace_totcount)
-				{
+                if ($replaced_counter > $keyword_replace_totcount) {
 					break;
 				}
 			}
 
-			if ($replaced_counter < $keyword_replace_totcount)
-			{
+            if ($replaced_counter < $keyword_replace_totcount) {
 //							echo '----MORE----';
-					if ($priority_keys_done == 0)
-					{
+                if ($priority_keys_done == 0) {
 						$priority_keys_done = 1; //pri keywords done
 
 						//goto find_more_keys;
@@ -2779,35 +2469,11 @@ if (!is_null($row->hover_title_text))
 					// there are 0 replacements
 					return $content;
 
-/*
-				if ($replaced_counter_previteration == $replaced_counter)
-				{
-							echo '----NO MORE----';
-					if ($priority_keys_done == 0)
-					{
-						$priority_keys_done = 1; //pri keywords done
 
-						//goto find_more_keys;
-						continue;
 					}
-					add_action('wp_footer', 'my_custom_jscript');
-					// there are 0 replacements
-					return $content;
 				}
-				else
-				{
-							echo '----MORE----';
-					// still we could find more replacements, hunt again
-					$replaced_counter_previteration = $replaced_counter;
-					//goto find_more_keys;
-					continue;
-				}
-*/
-			}
-		}
 
-		if ($replaced_counter >= $keyword_replace_totcount)
-		{
+        if ($replaced_counter >= $keyword_replace_totcount) {
 			break;
 		}
 	}
@@ -2827,8 +2493,7 @@ function AffiLinker_Install() {
 
 	$affilinker_db_version = "200";
 			
-	if(strcasecmp($wpdb->get_var("SHOW TABLES LIKE '$table_name'"), $table_name) != 0)
-	{
+    if (strcasecmp($wpdb->get_var("SHOW TABLES LIKE '$table_name'"), $table_name) != 0) {
 		add_option("affilinker_db_version", $affilinker_db_version);
 		add_option("affl_num_of_keywords", 5);
 		add_option("affl_num_of_keywords_percomment", 5);
@@ -2879,8 +2544,8 @@ function AffiLinker_Install() {
 	  alt_link_keyword int(12) NOT NULL,
 	  link_hit_count int(12),
 	 keyword_priority int(12) NOT NULL,
-	  UNIQUE KEY id (id),
-	  hover_title_text text
+	  hover_title_text text,
+	  UNIQUE KEY id (id)
 	);";
 
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
