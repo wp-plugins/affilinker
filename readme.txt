@@ -1,14 +1,9 @@
 === AffiLinker Affiliate === 
 Contributors: Ven Tesh 
 Donate link: http://www.affilinker.com/affiliate-wordpress-plugin/ 
-Tags: affiliate, affiliate plugin, tag cloud, affilinker, links, link, keywords, google, money, widget, tag, cloud, affiliate link,google webmaster,automatic
-Requires at least: 3.0
-Tested up to: 4.2.3
-Stable tag: 1.5.0
-License: GPLv2 or later 
-Automatically convert given keywords into Search Engine Friendly Affiliate Links (+colorful interactive links) throughout your blog. 
+Tags: affiliate, affiliate plugin, tag cloud, affilinker, links, link, keywords, google, money, widget, tag, cloud, affiliate link,google webmaster,automatic Requires at least: 3.0 Tested up to: 4.2.3 Stable tag: 1.5.0 License: GPLv2 or later Automatically convert given keywords into Search Engine Friendly Affiliate Links (+colorful interactive links) throughout your blog. 
 == Description == 
-The idea of AffiLinker WordPress Plugin is to automatically convert the given keywords into interactive + profitable Affiliate Links that your visitors Love-To-Click on blog posts, pages.
+The idea of AffiLinker WordPress Plugin is to automatically convert the given keywords into interactive + profitable Affiliate Links that your visitors Love-To-Click. The Affiliate Links on Posts/Pages.
 
 <a href="http://www.affilinker.com/affiliate-wordpress-plugin/">Download Pro-Version</a>
 
@@ -33,8 +28,7 @@ With AffiLinker, you can add the list of keywords and corresponding Affiliate Li
 - Choose the target window (like new window or current window), where to open when the user clicks on an Affiliate Link
 - Maximize on-page SEO by automatically inter-linking the specified keywords and URLs (using Affilinker sidebar widget)
 - Option to quickly disable/enable all the functionalities of AffiLinker
-- Looking for even more features ? Download the <a href="http://www.blasho.com/affilinker/">premium version here</a>
-- See the <a href="http://www.blasho.com/blog">Demo on our blog</a>
+- Looking for even more features ? Download the <a href="http://www.affilinker.com/affiliate-wordpress-plugin/">premium version here</a>.
 
 Pro-Version Features:
 
@@ -60,7 +54,7 @@ Good Luck !
 = What is the purpose of AffiLinker Affiliate WordPress Plugin ? = 
 Long story short, AffiLinker helps to quickly monetize your WordPress blog and helps to increase your blog income instantly + search engine friendly. It converts the specified keywords into given Affiliate Links automatically through out your blog and you can also show a collection of Affiliate Links as a Cloud on Sidebar/Footerbar. 
 = Do inserting Affiliate Links using JavaScript runtime ? = 
-No, affiliate links are not generated using JavaScript, they are embedded as HTML links only. we have disabled the hidden link feature as this is against Google Webmaster Guidelines. Now, your blog will be 100% compliance to Webmaster Guidelines using AffiLinker. Affiliate Links placed only in blog posts, pages, comment section, link cloud are all normal HTML links. 
+No, affiliate links are not generated using JavaScript, they are embedded as HTML links only. we have disabled the hidden link feature as this is against Google Webmaster Guidelines. Now, your blog will be 100% complaince to Webmaster Guidelines using AffiLinker. Affiliate Links placed only in blog posts, pages, comment section, link cloud are all normal HTML links. 
 = Do you have a premium version of AffiLinker ? = 
 Yes, the premium version has more interesting features and it can manage unlimited number of affiliate links. Please download it <a href="http://www.affilinker.com/affiliate-wordpress-plugin/">here</a>. 
 = Why do Affiliate Links are not appearing in my blog posts,pages ? = 
@@ -103,8 +97,11 @@ Yes, there is a built-in hit counter which shows the total number of clicks, uni
 * Minor bug fixes
 * New support for Hover title text (appears when user hovers over link) added as a disabled feature 
 = 1.5.0 =
-* Compliance with Google Webmaster Guidelines
+* Complaince to Google Webmaster Guidelines
 * Now the free version supports 6 affiliate links, enjoy! 
+= 1.6.0 =
+* Afiliate link creation error, for specific PHP versions fixed
+* hidenseek.js reference issue fixed, thanks to WPAdvices.com
 == Other Notes == 
 NA 
 == Upgrade Notice == 

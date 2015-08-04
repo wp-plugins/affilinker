@@ -4,7 +4,7 @@ Plugin Name: AffiLinker
 Plugin URI: http://www.affilinker.com/affiliate-wordpress-plugin/
 Description: WordPress plugin (lite version) to automatically convert keywords into Affiliate Links and to show Affiliate Link Cloud widget - <a href="http://www.affilinker.com/affiliate-wordpress-plugin/" target = "_blank">Download Pro-Version here</a> - <a href="http://www.blasho.com/blog" target="_blank">Our Blog</a>
 Author: Ven Tesh
-Version: 1.5.0
+Version: 1.6.0
 Author URI: http://www.blasho.com/
 */
 
@@ -82,7 +82,7 @@ $affl_underline_options_array = array(
         echo $after_title;
 
 	global $wpdb;
-	$table_name = $wpdb->prefix . "AffiLinker_db";
+	$table_name = $wpdb->prefix . "affilinker_db";
 
 	$myrows = $wpdb->get_results( "SELECT * FROM ". $table_name);
 
@@ -359,7 +359,7 @@ $affl_underline_options_array = array(
     echo $after_title;
 
 	global $wpdb;
-	$table_name = $wpdb->prefix . "AffiLinker_db";
+	$table_name = $wpdb->prefix . "affilinker_db";
 
 	$myrows = $wpdb->get_results( "SELECT * FROM ". $table_name);
 
@@ -547,9 +547,9 @@ function AffiLinker_NavigateToLink() {
 
 
 			global $wpdb;
-			$table_name = $wpdb->prefix . "AffiLinker_db";
+			$table_name = $wpdb->prefix . "affilinker_db";
 
-			$table_name_stat = $wpdb->prefix . "AffiLinker_db_stat";
+			$table_name_stat = $wpdb->prefix . "affilinker_db_stat";
 
 
 
@@ -611,7 +611,7 @@ function AffiLinker_NavigateToLink() {
 			$FullRef_URL = $_SERVER['HTTP_REFERER'];
 
                 if ($FullRef_URL != '') {
-				$table_name_stat_uniq = $wpdb->prefix . "AffiLinker_db_stat_uniq";
+				$table_name_stat_uniq = $wpdb->prefix . "affilinker_db_stat_uniq";
 				$affl_ip_address = $_SERVER['REMOTE_ADDR'];
 
 				$myrows = $wpdb->get_results( "SELECT * FROM ". $table_name_stat_uniq . " WHERE hit_keyword='$key' AND affl_ip_address='$affl_ip_address'");
@@ -645,8 +645,8 @@ function AffiLinker_NavigateToLink() {
 function AffiLinker_Operations() {
 	global $wpdb;
 
-	$table_name = $wpdb->prefix . "AffiLinker_db";
-	$table_name_stat = $wpdb->prefix . "AffiLinker_db_stat";
+	$table_name = $wpdb->prefix . "affilinker_db";
+	$table_name_stat = $wpdb->prefix . "affilinker_db_stat";
 
 
 
@@ -906,13 +906,13 @@ function AffiLinker_Operations() {
 
 	if($_POST['stats']=='Clear All Stats') {
 	global $wpdb;
-	$table_name = $wpdb->prefix . "AffiLinker_db_stat";
+	$table_name = $wpdb->prefix . "affilinker_db_stat";
 	$wpdb->query("DELETE FROM ". $table_name);
 
-	$table_name = $wpdb->prefix . "AffiLinker_db_stat_uniq";
+	$table_name = $wpdb->prefix . "affilinker_db_stat_uniq";
 	$wpdb->query("DELETE FROM ". $table_name);
 
-	$table_name = $wpdb->prefix . "AffiLinker_db";
+	$table_name = $wpdb->prefix . "affilinker_db";
 	$wpdb->query("UPDATE " . $table_name . " SET link_hit_count=0");
 	}
 }
@@ -923,7 +923,7 @@ function AffiLinker_CreateMenu() {
 	add_submenu_page(__FILE__, 'Track Links', 'Track Links', 8, 'tracklinkspage', 'AffiLinker_TrackAffiliates');
 	add_submenu_page(__FILE__, 'General Settings', 'General Settings', 8, 'affilinkergeneralsettings', 'AFFL_GeneralSettings');
 
-			wp_enqueue_script ('hidenseek', '/wp-content/plugins/affilinker/hidenseek.js', array('jquery'));
+			wp_enqueue_script ('hidenseek', '/wp-content/plugins/affilinker/js/hidenseek.js', array('jquery'));
 			wp_enqueue_script ('jscolor', '/wp-content/plugins/affilinker/jscolor.js', array('jquery'));
 }
 
@@ -1229,7 +1229,7 @@ background-color: blue;
     }  
 //--></STYLE>';
 	global $wpdb;
-	$table_name = $wpdb->prefix . "AffiLinker_db_stat";
+	$table_name = $wpdb->prefix . "affilinker_db_stat";
 
 	if($_POST['hitcountsort']=='Sort Up') {
 
@@ -1275,7 +1275,7 @@ echo ' 		<form name="clear-stats" method="post"><input type="submit" class="butt
 
 	<tbody class="plugins">
 	';
-	$table_name_stat_uniq = $wpdb->prefix . "AffiLinker_db_stat_uniq";
+	$table_name_stat_uniq = $wpdb->prefix . "affilinker_db_stat_uniq";
 $row_counter = 1;
 		foreach($myrows as $row) {
 
@@ -1382,7 +1382,7 @@ $row = mysql_fetch_array($result);
 function AffiLinker_MainPage() {
     
 	global $wpdb;
-	$table_name = $wpdb->prefix . "AffiLinker_db";
+	$table_name = $wpdb->prefix . "affilinker_db";
 
 	if($_GET['AffiLinker_Do']=='sort') {
 
@@ -2156,7 +2156,7 @@ $affl_keyword_priority_enable = get_option("affl_keyword_priority");
 
     while (1) {
 		global $wpdb;
-		$table_name = $wpdb->prefix . "AffiLinker_db";
+		$table_name = $wpdb->prefix . "affilinker_db";
         if ($priority_keys_done == 0) {
 //								echo '----PRI----';
 			$myrows = $wpdb->get_results( "SELECT id,link,keywords, alt_link_keyword, link_color, bg_color,hover_color,hover_bg_color, font_size, font_family, link_style_bold, link_style_italics, affl_underline_options, link_nofollow, link_target, include_keyword, hover_title_text  FROM ". $table_name . " WHERE keyword_priority <> 1");
@@ -2551,7 +2551,7 @@ function AffiLinker_Install() {
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
 
-	$table_name = $wpdb->prefix . "AffiLinker_db_stat";
+	$table_name = $wpdb->prefix . "affilinker_db_stat";
 
 		$sql = "CREATE TABLE " . $table_name . " (
 	  id mediumint(9) NOT NULL AUTO_INCREMENT,
@@ -2564,7 +2564,7 @@ function AffiLinker_Install() {
 		require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 		dbDelta($sql);
 
-	$table_name = $wpdb->prefix . "AffiLinker_db_stat_uniq";
+	$table_name = $wpdb->prefix . "affilinker_db_stat_uniq";
 
 	$sql = "CREATE TABLE " . $table_name . " (
 	  id mediumint(9) NOT NULL AUTO_INCREMENT,
