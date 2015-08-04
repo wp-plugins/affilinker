@@ -34,6 +34,7 @@ With AffiLinker, you can add the list of keywords and corresponding Affiliate Li
 - Maximize on-page SEO by automatically inter-linking the specified keywords and URLs (using Affilinker sidebar widget)
 - Option to quickly disable/enable all the functionalities of AffiLinker
 - Looking for even more features ? Download the <a href="http://www.affilinker.com/affiliate-wordpress-plugin/">premium version here</a>.
+- See the <a href="http://www.blasho.com/blog">Demo on our blog</a>
 
 Pro-Version Features:
 
@@ -67,7 +68,7 @@ AffiLinker relies on wp_footer. If your WordPress theme doesn't uses wp_footer, 
 = Is it possible to customize the link style uniquely for each and every Affiliate Link ? = 
 Yes, with AffiLinker you can choose different styles like: Link Color, Link Background Color, Link Hover Color, Link Hover Background Color, Font Size, Font Name, bold, italics. 
 = Is it possible to add NoFollow tags to the links ? = 
-Yes, you can add or remove the NoFollow tags for each and every link. Applicable only for Affiliate Links on comment section, AffiLinker widget (but Affiliate Links on blog posts, pages are always invisible to search engines). Just uncheck/check the “Add NoFollow” option. 
+Yes, you can add or remove the NoFollow tags for each and every link. Just uncheck/check the “Add NoFollow” option. 
 = Is it possible to select the target window for each link ? = 
 Yes, you can choose the target window (either to open in same window or new window) for each and every link. Just uncheck/check the “Same Window” option. 
 = Is it possible to find number of clicks received by each links ? = 
@@ -102,7 +103,7 @@ Yes, there is a built-in hit counter which shows the total number of clicks, uni
 * Minor bug fixes
 * New support for Hover title text (appears when user hovers over link) added as a disabled feature 
 = 1.5.0 =
-* Complaince to Google Webmaster Guidelines
+* Complaince to Google Webmaster Guidelines (no more hidden links)
 * Now the free version supports 6 affiliate links, enjoy! 
 = 1.6.0 =
 * Afiliate link creation error, for specific PHP versions fixed
